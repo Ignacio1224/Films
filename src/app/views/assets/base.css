@@ -1,0 +1,44 @@
+/**
+ * Created By:
+ * Ignacio Cabrera
+*/
+
+html,
+body {
+    height: 100%;
+}
+
+.center {
+    text-align: center;
+}
+
+#squareLogin {
+    display: none;
+}
+
+.mainGradient {
+    background-image: linear-gradient(#89bcff, #217ed4);
+}
+
+.transparentBorder {
+    background: white;
+    border: 20px solid rgba(0, 0, 0, 0.1);
+}
+
+#divError,
+#divErrorCambiarClave {
+    color: rgba(198, 6, 6, 0.9);
+    text-align: center;
+    display: none;
+}
+
+.invisible {
+    display: none;
+}
+
+/* Vista login */
+
+#viewLogin {
+    height: 100%;
+}
+
