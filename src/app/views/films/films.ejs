@@ -26,17 +26,17 @@
                     <h6 class="text-center">Access Sistem</h6>
 
                     <!-- Form -->
-                    <form class="mt-5" method="POST">
+                    <form class="mt-5" action="/films" method="POST">
                         <div class="form-group" id="ctlGroupUsername">
                             <label for="txtUsername" id="lblUsername">Username</label>
-                            <input class="form-control" id="txtUsername" maxlength="8" placeholder="icabrera"><!-- onKeyDown="if(event.keyCode==13) ingresar();"> -->
+                            <input class="form-control" id="txtUsername" name="userName" maxlength="8" placeholder="<%= user[0].userName %>">
                         </div>
                         <div class="form-group">
                             <label for="txtPassword" id="lblPassword">Password</label>
-                            <input class="form-control" type="password" id="txtPassword"><!--  onKeyDown="if(event.keyCode==13) ingresar();"> -->
+                            <input class="form-control" type="password" id="txtPassword" name="passwords">
                         </div>
                         <div class="text-center">
-                            <button type="button" class="btn btn-success" id="btnLogIn">LogIn</button>
+                            <input type="submit" class="btn btn-success" id="btnLogIn" value="LogIn"/>
                         </div>
                     </form>
                     <br>
