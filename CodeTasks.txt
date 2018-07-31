@@ -1,0 +1,4 @@
+-- CODE TASKS --
+    Hash password
+    Finish LogIn with password hasshed
+    
