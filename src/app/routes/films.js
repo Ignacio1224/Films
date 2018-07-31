@@ -5,20 +5,23 @@ module.exports = app => {
     const connection = dbConnection();
 
     app.get('/', (req, res) => {
-
-        connection.query('SELECT userName FROM user', (err, result) => {
-            res.render("films/films", {
-                user : result
-            }); 
+        res.render("LogIn/LogIn", {
+            error : ""
         });
     });
 
-    app.post('/films', (req, res) => {
-        const {user, passs} = req.body;
-
-        const query = `SELECT * FROM user where userName = ${user}`;
-        connection.query(`SELECT * FROM user where userName = ${user}`, (err, result) => {
-            res.send(err); 
+    app.post('/Films', (req, res) => {
+        const {userName, passwords} = req.body;
+        const query = `SELECT * FROM user WHERE userName = "${userName}"`;
+        
+        connection.query(query, (err, result) => {
+            if (result[0].userName === userName && result[0].passwords === passwords) {
+                res.render("Films/Films"); 
+            } else {
+                res.render("LogIn/LogIn", {
+                    error : "User or Password Incorrect"
+                }); 
+            }
         });
     });
 }
