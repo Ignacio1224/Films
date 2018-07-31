@@ -1,4 +1,4 @@
 -- CODE TASKS --
     Hash password
     Finish LogIn with password hasshed
-    
+    Corregir el modal ok cuando se cambia la password
