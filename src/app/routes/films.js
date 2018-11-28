@@ -20,7 +20,6 @@ module.exports = app => {
             connection.query(query, (err, result) => {
                 res.render("Films/Films", {
                     userNameLogged : usernameLogged
-b
                 });
             });
         }
