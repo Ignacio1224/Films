@@ -3,52 +3,42 @@
 
 <head>
     <meta charset="UTF-8">
-    <script src="/assets/jquery.js" type="text/javascript"></script>   
-    <script src="/assets/bootstrap.js" type="text/javascript"></script>    
-    <script src="/assets/ui.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="/assets/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/assets/base.css">
-    <title>LogIn</title>
+    <script src="/assets/jquery/jquery.js" type="text/javascript"></script>   
+    <script src="/assets/bootstrap-4.1.3/js/bootstrap.js" type="text/javascript"></script>    
+    <!-- <script src="/assets/static/js/common.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" type="text/css" href="/assets/bootstrap-4.1.3/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/assets/apps/LogIn/css/login.css">
+    <title>LogIn | FILMS</title>
 </head>
 
 <body>
 
     <body>
-
-        <!-- View login -->
-        <div class="mainGradient container-fluid" id="viewLogin">
-            <div class="row justify-content-md-center">
-                <div class="col"></div>
-                <div id="squareLogin" class="col-md-auto bg-light mt-5 rounded transparentBorder shadow p-3 mb-5">
-                    <h1 class="display-6 mt-5">Film History System</h1>
-                    <h6 class="text-center">Access Sistem</h6>
-
-                    <!-- Form -->
-                    <form class="mt-5" action="/Films" method="POST">
-                        <div class="form-group" id="ctlGroupUsername">
-                            <label for="txtUsername" id="lblUsername">Username</label>
-                            <input class="form-control" id="txtUsername" name="userName" maxlength="8" placeholder="Ignacio">
-                        </div>
-                        <div class="form-group">
-                            <label for="txtPassword" id="lblPassword">Password</label>
-                            <input class="form-control" type="password" id="txtPassword" name="passwords">
-                        </div>
-                        <div class="text-center">
-                            <input type="submit" class="btn btn-success" id="btnLogIn" value="LogIn"/>
-                        </div>
-                    </form>
-                    <br>
-                    <br>
-                    <%if (error !== "") { %>
-                        <div id="divError" class="alert alert-danger alert-dismissable" style="display: block;">
-                            <span><%= error %></span>
-                        </div>
-                    <% } %>
-                </div>
-                <div class="col"></div>
+        <div class="container">
+            <div class="card card-container">
+                <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+                <p id="profile-name" class="profile-name-card"></p>
+                <form action="/Films" method="POST" class="form-signin">
+                    <span id="reauth-username" class="reauth-username"></span>
+                    <input type="text" id="txtUsername" name="userName" maxlength="8" class="form-control" placeholder="Username" required autofocus>
+                    <input type="password" id="txtPassword" name="passwords" class="form-control" placeholder="Password" required>
+                    <div id="remember" class="checkbox">
+                        <label>
+                            <input type="checkbox" value="remember-me"> Remember me
+                        </label>
+                    </div>
+                    <input type="submit" value="LogIn" class="btn btn-lg btn-primary btn-block btn-signin" />
+                </form>
+                <a href="#" class="forgot-password">
+                    Forgot the password?
+                </a>
+                <%if (error !== "") { %>
+                    <div id="divError" class="alert alert-danger alert-dismissable" style="display: block;">
+                        <span><%= error %></span>
+                    </div>
+                <% } %>
             </div>
         </div>
-
     </body>
 
 </html>

@@ -1,6 +1,7 @@
 const dbConnection = require('../../config/dbConnection');
 
 let usernameLogged;
+let nametab = "Dashboard";
 
 module.exports = app => {
     const connection = dbConnection();
@@ -19,6 +20,7 @@ module.exports = app => {
             connection.query(query, (err, result) => {
                 res.render("Films/Films", {
                     userNameLogged : usernameLogged
+b
                 });
             });
         }
@@ -33,7 +35,6 @@ module.exports = app => {
                 res.render("Films/Films", {
                     userNameLogged : result[0].userName
                 });
-                usernameLogged = result[0].userName;
             } else {
                 res.render("LogIn/LogIn", {
                     error : "User or Password Incorrect"
