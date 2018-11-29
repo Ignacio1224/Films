@@ -47,6 +47,24 @@ span {
     display: inline-block;
 }
 
+.nav-pills > .nav-item > .dropdown-toggle::after{
+    display: inline-block;
+    position: initial;
+    top: unset;
+    right: unset;
+    transform: unset;
+}
+
+#dropownSettings {
+    left: -224%;
+}
+
+
+
+#dropdownUser {
+    left: -48%;
+}
+
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */

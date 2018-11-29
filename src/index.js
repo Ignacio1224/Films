@@ -1,6 +1,7 @@
 const app = require("./config/server");
 
-require("./app/routes/films")(app);
+// Films
+require("./app/routes/Films.js")(app);
 
 // Starting the server
 

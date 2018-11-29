@@ -2,8 +2,9 @@ const dbConnection = require('../../config/dbConnection');
 
 const RenderPage = "Base/base";
 
-var usernameLogged;
 var LoggedUser = null;
+
+//var usernameLogged;
 
 module.exports = app => {
     const connection = dbConnection();

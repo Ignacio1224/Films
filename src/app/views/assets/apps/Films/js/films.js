@@ -4,4 +4,8 @@ $(document).ready(function () {
         $('#sidebar').toggleClass('active');
     });
 
+    $(function () {
+        $('#aSettings').tooltip()
+    })
+
 });

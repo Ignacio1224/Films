@@ -11,12 +11,22 @@
             <i class="fas fa-align-justify"></i>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/AddFilm"><%= Page["userNameLogged"] %></a>
-                </li>
-            </ul>
-        </div>
+        <ul class="nav nav-pills">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#" id="aSettings" title="Settings" data-placement="top"><span class="fas fa-cog"></span></a>
+                <div class="dropdown-menu" id="dropownSettings">
+                    <a class="dropdown-item" href="/Change Password">Change Password</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                    aria-expanded="false">
+                    <%= Page["userNameLogged"] %>
+                </a>
+                <div class="dropdown-menu" id="dropdownUser">
+                    <a class="dropdown-item" href="/LogOut">LogOut</a>
+                </div>
+            </li>
+        </ul>
     </div>
 </nav>
