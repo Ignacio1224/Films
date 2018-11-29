@@ -32,7 +32,8 @@ module.exports = app => {
         connection.query(query, (err, result) => {
             if (result[0].userName === userName && result[0].passwords === passwords) {
                 res.render("Films/Films", {
-                    userNameLogged : result[0].userName
+                    userNameLogged : result[0].userName,
+                    titleTab : "Dashboard"
                 });
             } else {
                 res.render("LogIn/LogIn", {
