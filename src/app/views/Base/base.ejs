@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Include of style sheets and meta markups -->
+    <% include ../assets/static/html/head %>
+
+    <link rel="stylesheet" type="text/css" href="/assets/apps/Films/css/films.css">
+
+    <title>
+        <%= Page["titleTab"] %> | FILMS</title>
+</head>
+
+<body>
+
+
+    <div class="wrapper">
+        <!--Include of sidebar  -->
+        <% include ../assets/static/html/sidebar %>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+            <!-- Include navbar -->
+            <% include ../assets/static/html/navbar %>
+
+            <!-- Include Dashboard -->
+            <% if (Page["titleTab"] === "Dashboard") { %>
+               <% include ../assets/apps/Films/html/films %>
+            <% } %>
+
+        </div>
+    </div>
+
+
+    <!-- Include of scripts -->
+    <% include ../assets/static/html/footer %>
+    <script src="/assets/apps/Films/js/films.js"></script>
+
+</body>
+
+</html>
