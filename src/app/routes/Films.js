@@ -22,6 +22,7 @@ module.exports = app => {
         });
     });
 
+
     // #################################### LOGIN ####################################
     // POST
     app.post('/LogIn', (req, res) => {
@@ -36,7 +37,8 @@ module.exports = app => {
                 res.render(RenderPage, {
                     Page: {
                         userNameLogged: result[0].userName,
-                        titleTab: "Dashboard"
+                        titleTab: "Dashboard",
+                        sidebarClass : "Home"
                     }
                 });
             } else {
@@ -46,6 +48,16 @@ module.exports = app => {
             }
             // Set userLogged
             LoggedUser = result[0].userName;
+        });
+    });
+
+
+    // #################################### LOGOUT ####################################
+    // GET
+    app.get('/LogOut', (req, res) => {
+        LoggedUser = null;
+        res.render('LogIn/LogIn', {
+            error: ""
         });
     });
 
@@ -67,6 +79,7 @@ module.exports = app => {
             });
         }
     });
+    
 
     // app.post('/changePassword', (req, res) => {
     //     const {
