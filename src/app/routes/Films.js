@@ -69,7 +69,8 @@ module.exports = app => {
             res.render(RenderPage, {
                 Page: {
                     userNameLogged: LoggedUser,
-                    titleTab: "AddFilm"
+                    titleTab: "Add Film",
+                    sidebarClass : "AddFilm"
                 }
             });
 
@@ -80,6 +81,66 @@ module.exports = app => {
         }
     });
     
+
+    // #################################### DELETE FILM ####################################
+    // GET
+    app.get('/DeleteFilm', (req, res) => {
+        if (LoggedUser != null) {
+            res.render(RenderPage, {
+                Page: {
+                    userNameLogged: LoggedUser,
+                    titleTab: "Delete Film",
+                    sidebarClass : "DeleteFilm"
+                }
+            });
+
+        } else {
+            res.render("LogIn/LogIn", {
+                error: "User not logged"
+            });
+        }
+    });
+
+
+    // #################################### MODIFY FILM ####################################
+    // GET
+    app.get('/ModifyFilm', (req, res) => {
+        if (LoggedUser != null) {
+            res.render(RenderPage, {
+                Page: {
+                    userNameLogged: LoggedUser,
+                    titleTab: "Modify Film",
+                    sidebarClass : "ModifyFilm"
+                }
+            });
+
+        } else {
+            res.render("LogIn/LogIn", {
+                error: "User not logged"
+            });
+        }
+    });
+
+
+    // #################################### VIEW FILM ####################################
+    // GET
+    app.get('/ViewFilm', (req, res) => {
+        if (LoggedUser != null) {
+            res.render(RenderPage, {
+                Page: {
+                    userNameLogged: LoggedUser,
+                    titleTab: "View Film",
+                    sidebarClass : "ViewFilm"
+                }
+            });
+
+        } else {
+            res.render("LogIn/LogIn", {
+                error: "User not logged"
+            });
+        }
+    });
+
 
     // app.post('/changePassword', (req, res) => {
     //     const {

@@ -15,7 +15,11 @@
                 Home
             </a>
         </li>
+        <% if (Page["sidebarClass"] == "AddFilm" || Page["sidebarClass"] == "DeleteFilm" || Page["sidebarClass"] == "ModifyFilm" || Page["sidebarClass"] == "ViewFilm") { %>
+        <li class="active">
+        <% } else { %>
         <li>
+        <% } %>
             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                 <i class="fas fa-copy"></i>
                 Manage
@@ -26,7 +30,7 @@
                 <% } else { %>
                 <li>
                 <% } %>
-                    <a href="#">Add film</a>
+                    <a href="/AddFilm">Add film</a>
                 </li>
 
                 <% if (Page["sidebarClass"] == "DeleteFilm") { %>
@@ -34,7 +38,7 @@
                 <% } else { %>
                 <li>
                 <% } %>
-                    <a href="#">Delete film</a>
+                    <a href="/DeleteFilm">Delete film</a>
                 </li>
 
                 <% if (Page["sidebarClass"] == "ModifyFilm") { %>
@@ -42,7 +46,7 @@
                 <% } else { %>
                 <li>
                 <% } %>
-                    <a href="#">Modify film</a>
+                    <a href="/ModifyFilm">Modify film</a>
                 </li>
 
                 <% if (Page["sidebarClass"] == "ViewFilm") { %>
@@ -50,7 +54,7 @@
                 <% } else { %>
                 <li>
                 <% } %>
-                    <a href="#">View film</a>
+                    <a href="/ViewFilm">View film</a>
                 </li>
             </ul>
         </li>

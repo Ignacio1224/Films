@@ -184,6 +184,16 @@ span {
     background: rgb(124, 12, 124);
 }
 
+#pageSubmenu li.active > a {
+    color: #fff;
+    background: rgb(160, 16, 160) !important;
+}
+
+#pageSubmenu li.active > a:hover {
+    color: rgba(194, 14, 154, 0.6);
+    background: #fff !important;
+}
+
 a[aria-expanded="true"] {
     color: #fff;
     background: rgb(138, 44, 138);
