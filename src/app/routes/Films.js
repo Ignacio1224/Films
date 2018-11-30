@@ -1,10 +1,12 @@
 const dbConnection = require('../../config/dbConnection');
 
+// MainPage
 const RenderPage = "Base/base";
 
-var LoggedUser = null;
 
-//var usernameLogged;
+
+// Logued User
+var LoggedUser = null;
 
 module.exports = app => {
     const connection = dbConnection();
@@ -23,9 +25,27 @@ module.exports = app => {
     });
 
 
-    // #################################### LOGIN ####################################
+    // #################################### LOGIN FROM ####################################
+    // GET
+    app.get('/Films', (req, res) => {
+        if (LoggedUser != null) {
+            res.render(RenderPage, {
+                Page: {
+                    userNameLogged: LoggedUser,
+                    titleTab: "Dashboard",
+                    sidebarClass : "Home"
+                }
+            });
+
+        } else {
+            res.render("LogIn/LogIn", {
+                error: "User not logged"
+            });
+        }
+    });
+
     // POST
-    app.post('/LogIn', (req, res) => {
+    app.post('/Films', (req, res) => {
         const {
             userName,
             password
@@ -50,7 +70,7 @@ module.exports = app => {
             LoggedUser = result[0].userName;
         });
     });
-
+    
 
     // #################################### LOGOUT ####################################
     // GET

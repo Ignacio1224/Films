@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Include of style sheets and meta markups -->
+    <% include ../assets/static/html/head %>
+    <title>Forgot Password Success | FILMS</title>
+</head>
+
+<body>
+
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <span class="anchor" id="formResetPassword"></span>
+                <hr class="mb-5">
+
+                <div class="card card-outline-secondary">
+                    <div class="card-header">
+                        <h3 class="mb-0">Password Reset Success</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Password reset instructions was sended to <%= email %>.
+                        </p>
+                        <p>
+                            You can 
+                            <a href="http://<%= emailDomain %>" target="_blank">Check your email!</a>
+                            or
+                            <a href="/">LogIn</a>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Include of scripts -->
+    <% include ../assets/static/html/footer %>
+
+    <style>
+
+    </style>
+</body>
+
+</html>
