@@ -18,9 +18,9 @@ module.exports = app => {
         });
     });
 
-    app.get('/LogIn', (req,res) => {
+    app.get('/LogIn', (req, res) => {
         res.render("LogIn/LogIn", {
-            error:""
+            error: ""
         });
     });
 
@@ -28,20 +28,21 @@ module.exports = app => {
     // #################################### LOGIN FROM ####################################
     // GET
     app.get('/Films', (req, res) => {
-        if (LoggedUser != null) {
-            res.render(RenderPage, {
-                Page: {
-                    userNameLogged: LoggedUser,
-                    titleTab: "Dashboard",
-                    sidebarClass : "Home"
-                }
-            });
-
-        } else {
+        if (LoggedUser === null) {
             res.render("LogIn/LogIn", {
                 error: "User not logged"
             });
+            return false;
         }
+
+        res.render(RenderPage, {
+            Page: {
+                userNameLogged: LoggedUser,
+                titleTab: "Dashboard",
+                sidebarClass: "Home",
+                changePassword : false
+            }
+        });
     });
 
     // POST
@@ -58,7 +59,8 @@ module.exports = app => {
                     Page: {
                         userNameLogged: result[0].userName,
                         titleTab: "Dashboard",
-                        sidebarClass : "Home"
+                        sidebarClass: "Home",
+                        changePassword : false
                     }
                 });
             } else {
@@ -70,7 +72,7 @@ module.exports = app => {
             LoggedUser = result[0].userName;
         });
     });
-    
+
 
     // #################################### LOGOUT ####################################
     // GET
@@ -85,97 +87,113 @@ module.exports = app => {
     // #################################### ADD FILM ####################################
     // GET
     app.get('/AddFilm', (req, res) => {
-        if (LoggedUser != null) {
-            res.render(RenderPage, {
-                Page: {
-                    userNameLogged: LoggedUser,
-                    titleTab: "Add Film",
-                    sidebarClass : "AddFilm"
-                }
-            });
-
-        } else {
+        if (LoggedUser === null) {
             res.render("LogIn/LogIn", {
                 error: "User not logged"
             });
+            return false;
         }
+
+        res.render(RenderPage, {
+            Page: {
+                userNameLogged: LoggedUser,
+                titleTab: "Add Film",
+                sidebarClass: "AddFilm",
+                changePassword : false
+            }
+        });
     });
-    
+
 
     // #################################### DELETE FILM ####################################
     // GET
     app.get('/DeleteFilm', (req, res) => {
-        if (LoggedUser != null) {
-            res.render(RenderPage, {
-                Page: {
-                    userNameLogged: LoggedUser,
-                    titleTab: "Delete Film",
-                    sidebarClass : "DeleteFilm"
-                }
-            });
-
-        } else {
+        if (LoggedUser === null) {
             res.render("LogIn/LogIn", {
                 error: "User not logged"
             });
+            return false;
         }
+
+        res.render(RenderPage, {
+            Page: {
+                userNameLogged: LoggedUser,
+                titleTab: "Delete Film",
+                sidebarClass: "DeleteFilm",
+                changePassword : false
+            }
+        });
     });
 
 
     // #################################### MODIFY FILM ####################################
     // GET
     app.get('/ModifyFilm', (req, res) => {
-        if (LoggedUser != null) {
-            res.render(RenderPage, {
-                Page: {
-                    userNameLogged: LoggedUser,
-                    titleTab: "Modify Film",
-                    sidebarClass : "ModifyFilm"
-                }
-            });
-
-        } else {
+        if (LoggedUser === null) {
             res.render("LogIn/LogIn", {
                 error: "User not logged"
             });
+            return false;
         }
+
+        res.render(RenderPage, {
+            Page: {
+                userNameLogged: LoggedUser,
+                titleTab: "Modify Film",
+                sidebarClass: "ModifyFilm",
+                changePassword : false
+            }
+        });
     });
 
 
     // #################################### VIEW FILM ####################################
     // GET
     app.get('/ViewFilm', (req, res) => {
-        if (LoggedUser != null) {
-            res.render(RenderPage, {
-                Page: {
-                    userNameLogged: LoggedUser,
-                    titleTab: "View Film",
-                    sidebarClass : "ViewFilm"
-                }
-            });
-
-        } else {
+        if (LoggedUser === null) {
             res.render("LogIn/LogIn", {
                 error: "User not logged"
             });
+            return false;
         }
+
+        res.render(RenderPage, {
+            Page: {
+                userNameLogged: LoggedUser,
+                titleTab: "View Film",
+                sidebarClass: "ViewFilm",
+                changePassword : false
+            }
+        });
     });
 
 
-    // app.post('/changePassword', (req, res) => {
-    //     const {
-    //         newPassword,
-    //         verifiedPassword
-    //     } = req.body;
+    app.post('/ChangePassword', (req, res) => {
+        if (LoggedUser === null) {
+            res.render("LogIn/LogIn", {
+                error: "User not logged"
+            });
+            return false;
+        }
 
-    //     if (newPassword.length >= 8 && (newPassword === verifiedPassword)) {
-    //         const query = `UPDATE user SET passwords = "${newPassword}" WHERE userName = "${usernameLogged}"`
-    //         connection.query(query, (err, result) => {
-    //             res.render("Films/Films", {
-    //                 userNameLogged: usernameLogged
-    //             });
-    //         });
-    //     }
-    // });
+        const {
+            txtPasswordNew,
+            txtPasswordNewVerify
+        } = req.body;
+
+        if (txtPasswordNew.length >= 8 && (txtPasswordNew === txtPasswordNewVerify)) {
+            const query = `UPDATE user SET passwords = "${txtPasswordNew}" WHERE userName = "${LoggedUser}";`;
+            connection.query(query, (err, result) => {
+                res.render(RenderPage, {
+                    Page: {
+                        userNameLogged: LoggedUser,
+                        titleTab: "Dashboard",
+                        sidebarClass: "Home",
+                        changePassword : true
+                    }
+                });
+            });
+        }
+    });
 
 }
