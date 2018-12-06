@@ -4,7 +4,7 @@
 <head>
     <!-- Include of style sheets and meta markups -->
     <% include ../assets/static/html/head %>
-    <title>Forgot Password | FILMS</title>
+    <title>Forgot Password Code | FILMS</title>
 </head>
 
 <body>
@@ -17,22 +17,24 @@
 
                 <div class="card card-outline-secondary">
                     <div class="card-header">
-                        <h3 class="mb-0">Password Reset</h3>
+                        <h3 class="mb-0">Password Reset Code</h3>
                     </div>
                     <div class="card-body">
-                        <form class="form" role="form" autocomplete="off" action="/ForgotPassword" method="POST">
+                        <form class="form" role="form" autocomplete="off" action="/PasswordResetFormCode" method="POST">
                             <div class="form-group">
                                 <label for="txtUserEmailReset">Email</label>
-                                <input type="email" class="form-control" id="txtUserEmailReset" name="txtUserEmailReset" required>
-                                <span id="helpResetPasswordEmail" class="form-text small text-muted">
-                                    Password reset instructions will be sent to this email address.
-                                </span>
+                                <input type="email" class="form-control" id="txtUserEmailReset" name="txtUserEmailReset"
+                                    required>
+
+                                <label for="txtCode" class="mt-3">Code</label>
+                                <input type="text" class="form-control" id="txtCode" name="txtCode" required>
                             </div>
 
                             <%if (error !== "") { %>
-                                <div id="divError" class="alert alert-danger alert-dismissable" style="display: block;">
-                                    <span><%= error %></span>
-                                </div>
+                            <div id="divError" class="alert alert-danger alert-dismissable" style="display: block;">
+                                <span>
+                                    <%= error %></span>
+                            </div>
                             <% } %>
 
                             <div class="form-group">

@@ -55,15 +55,28 @@ CREATE TABLE `sees` (
 
 CREATE TABLE `user` (
   `userName` varchar(50) NOT NULL,
-  `passwords` varchar(255) DEFAULT NULL
+  `passwords` varchar(255) DEFAULT NULL,
+  `userEmail` varchar(254) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `resetPasswordCode`
+--
+
+CREATE TABLE passwordResetCode (
+  userEmail varchar(254) NOT NULL,
+  resetCode int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 --
 -- Volcado de datos para la tabla `user`
 --
 
-INSERT INTO `user` (`userName`, `passwords`) VALUES
-('Ignacio', 'Root1224');
+INSERT INTO `user` (`userName`, `passwords`, `userEmail`) VALUES
+('Ignacio', 'Root1224', 'ignaciocabrera1224@gmail.com');
 
 --
 -- Índices para tablas volcadas
@@ -88,6 +101,12 @@ ALTER TABLE `sees`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`userName`);
+
+--
+-- Indices de la tabla passwordresetcode
+--
+ALTER TABLE `passwordresetcode` 
+  ADD PRIMARY KEY (userEmail);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -116,6 +135,12 @@ ALTER TABLE `sees`
   ADD CONSTRAINT `fk_film` FOREIGN KEY (`idFilm`) REFERENCES `film` (`idFilm`),
   ADD CONSTRAINT `fk_user` FOREIGN KEY (`userName`) REFERENCES `user` (`userName`);
 COMMIT;
+
+--
+-- Filtros para la tabla `resetpasswordcode`
+--
+ALTER TABLE `passwordresetcode`
+  ADD CONSTRAINT `fk_passwordresetcode` FOREIGN KEY (`userEmail`) REFERENCES `user` (`userEmail`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

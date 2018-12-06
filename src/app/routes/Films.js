@@ -1,23 +1,32 @@
+// Database Connection
 const dbConnection = require('../../config/dbConnection');
+
+// Send Mail
+const Email = require('./SendMail');
+
+// Queries
+const Queries = require('./Queries');
+
 
 // MainPage
 const RenderPage = "Base/base";
 
-
-
 // Logued User
 var LoggedUser = null;
+
 
 module.exports = app => {
     const connection = dbConnection();
 
     // #################################### START ####################################
+    //GET
     app.get('/', (req, res) => {
         res.render("LogIn/LogIn", {
             error: ""
         });
     });
 
+    //GET
     app.get('/LogIn', (req, res) => {
         res.render("LogIn/LogIn", {
             error: ""
@@ -40,7 +49,7 @@ module.exports = app => {
                 userNameLogged: LoggedUser,
                 titleTab: "Dashboard",
                 sidebarClass: "Home",
-                changePassword : false
+                changePassword: false
             }
         });
     });
@@ -51,16 +60,23 @@ module.exports = app => {
             userName,
             password
         } = req.body;
-        const query = `SELECT * FROM user WHERE userName = "${userName}"`;
 
-        connection.query(query, (err, result) => {
+        connection.query(Queries.Query("GetUserComplete", userName), (err, result) => {
+            
+            if (result.length === 0) {
+                res.render("LogIn/LogIn", {
+                    error: "User or Password Incorrect"
+                });
+                return false;
+            }
+
             if (result[0].userName === userName && result[0].passwords === password) {
                 res.render(RenderPage, {
                     Page: {
                         userNameLogged: result[0].userName,
                         titleTab: "Dashboard",
                         sidebarClass: "Home",
-                        changePassword : false
+                        changePassword: false
                     }
                 });
             } else {
@@ -84,6 +100,49 @@ module.exports = app => {
     });
 
 
+    // #################################### CHANGE PASSWORD ####################################
+    // POST
+    app.post('/ChangePassword', (req, res) => {
+        if (LoggedUser === null) {
+            res.render("LogIn/LogIn", {
+                error: "User not logged"
+            });
+            return false;
+        }
+
+        const {
+            txtPasswordNew,
+            txtPasswordNewVerify
+        } = req.body;
+
+        if (txtPasswordNew.length >= 8 && (txtPasswordNew === txtPasswordNewVerify)) {
+            
+            connection.query(Queries.Query("UpdateUserPassword",LoggedUser, txtPasswordNew), (err, result) => {
+                
+                const connection2 = dbConnection();
+                connection2.query(Queries.Query("GetUserEmail", LoggedUser), (err, result2) => {
+                    
+                    // Send Email
+                    const subject = "FILMS SYSTEM | Password Changed!";
+                    const text = "Your password has been changed correctly.";
+                    Email.SendEmail(result2[0].userEmail, subject, text);
+
+                    res.render(RenderPage, {
+                        Page: {
+                            userNameLogged: LoggedUser,
+                            titleTab: "Dashboard",
+                            sidebarClass: "Home",
+                            changePassword: true
+                        }
+                    });
+    
+                });
+
+            });
+        }
+    });
+
+
     // #################################### ADD FILM ####################################
     // GET
     app.get('/AddFilm', (req, res) => {
@@ -99,8 +158,9 @@ module.exports = app => {
                 userNameLogged: LoggedUser,
                 titleTab: "Add Film",
                 sidebarClass: "AddFilm",
-                changePassword : false
+                changePassword: false
             }
+
         });
     });
 
@@ -120,7 +180,7 @@ module.exports = app => {
                 userNameLogged: LoggedUser,
                 titleTab: "Delete Film",
                 sidebarClass: "DeleteFilm",
-                changePassword : false
+                changePassword: false
             }
         });
     });
@@ -141,7 +201,7 @@ module.exports = app => {
                 userNameLogged: LoggedUser,
                 titleTab: "Modify Film",
                 sidebarClass: "ModifyFilm",
-                changePassword : false
+                changePassword: false
             }
         });
     });
@@ -162,38 +222,9 @@ module.exports = app => {
                 userNameLogged: LoggedUser,
                 titleTab: "View Film",
                 sidebarClass: "ViewFilm",
-                changePassword : false
+                changePassword: false
             }
         });
-    });
-
-
-    app.post('/ChangePassword', (req, res) => {
-        if (LoggedUser === null) {
-            res.render("LogIn/LogIn", {
-                error: "User not logged"
-            });
-            return false;
-        }
-
-        const {
-            txtPasswordNew,
-            txtPasswordNewVerify
-        } = req.body;
-
-        if (txtPasswordNew.length >= 8 && (txtPasswordNew === txtPasswordNewVerify)) {
-            const query = `UPDATE user SET passwords = "${txtPasswordNew}" WHERE userName = "${LoggedUser}";`;
-            connection.query(query, (err, result) => {
-                res.render(RenderPage, {
-                    Page: {
-                        userNameLogged: LoggedUser,
-                        titleTab: "Dashboard",
-                        sidebarClass: "Home",
-                        changePassword : true
-                    }
-                });
-            });
-        }
     });
 
 }
