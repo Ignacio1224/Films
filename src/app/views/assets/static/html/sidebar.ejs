@@ -30,7 +30,7 @@
                 <% } else { %>
                 <li>
                 <% } %>
-                    <a href="/AddFilm">Add film</a>
+                    <a href="/AddFilm"><span class="fas fa-plus"></span> Add Film</a>
                 </li>
 
                 <% if (Page["sidebarClass"] == "DeleteFilm") { %>
@@ -38,7 +38,7 @@
                 <% } else { %>
                 <li>
                 <% } %>
-                    <a href="/DeleteFilm">Delete film</a>
+                    <a href="/DeleteFilm"><span class="fas fa-trash-alt"></span> Delete Film</a>
                 </li>
 
                 <% if (Page["sidebarClass"] == "ModifyFilm") { %>
@@ -46,7 +46,7 @@
                 <% } else { %>
                 <li>
                 <% } %>
-                    <a href="/ModifyFilm">Modify film</a>
+                    <a href="/ModifyFilm"><span class="fas fa-edit"></span> Edit Film</a>
                 </li>
 
                 <% if (Page["sidebarClass"] == "ViewFilm") { %>
@@ -54,7 +54,7 @@
                 <% } else { %>
                 <li>
                 <% } %>
-                    <a href="/ViewFilm">View film</a>
+                    <a href="/ViewFilm"><span class="fas fa-eye"></span> View Film</a>
                 </li>
             </ul>
         </li>

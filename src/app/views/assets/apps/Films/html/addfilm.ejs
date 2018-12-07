@@ -1,0 +1,43 @@
+<div class="card card-outline-secondary">
+    <div class="card-header">
+        <h3 class="mb-0">User Information</h3>
+    </div>
+    <div class="card-body">
+        <form class="form" role="form" autocomplete="off">
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">Film Name</label>
+                <div class="col-lg-9">
+                    <input class="form-control" type="text" placeholder="Film Name">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">Duration</label>
+                <div class="col-lg-9">
+                    <input class="form-control" type="number" min="1" max="1000">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">Memory Address</label>
+                <div class="col-lg-9">
+                    <input class="form-control" type="text" placeholder="C://">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">Points</label>
+                <div class="col-lg-9">
+                    <div id="range-slider">
+                        <input id="rangePoints" type="range" value="50" min="0" max="100">
+                        <span id="rangePointsValue">50</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label"></label>
+                <div class="col-lg-9">
+                    <input type="reset" class="btn btn-secondary" value="Cancel">
+                    <input type="button" class="btn btn-primary" value="Save Changes">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
