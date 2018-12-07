@@ -12,23 +12,6 @@ $(document).ready(function () {
     });
 
     // POST Change Password Form
-    // $('#bttnChangePassword').click(function (event) {
-    //     let newPassword = $('#txtPasswordNew').val();
-    //     let newPasswordVerify = $('#txtPasswordNewVerify').val();
-        
-    //     if (newPassword === newPasswordVerify && newPassword.length > 7) {
-    //         $(this).unbind("click");
-    //         $('#divErrorChangePassword').css("display", "none");
-    //         $.post("ChangePassword", {
-    //             txtPasswordNew: newPassword,
-    //             txtPasswordNew: newPasswordVerify
-    //         });
-    //     } else {
-    //         event.preventDefault();
-    //         $('#divErrorChangePassword').css("display", "block");
-    //     }
-    // });
-
     $("#changePasswordForm").submit(function (event) {
 
         let newPassword = $('#txtPasswordNew').val();
