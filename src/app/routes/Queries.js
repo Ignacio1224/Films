@@ -21,6 +21,18 @@ module.exports.Query = function Query(Name, user = null, newPassword = null, ema
             query = `SELECT resetCode FROM passwordResetCode WHERE userEmail = '${email}';`;
             break;
 
+        case "InsertPasswordResetCode":
+            query = `INSERT INTO passwordResetCode (userEmail, resetCode) VALUES ('${email}', '${code}');`;
+            break;
+
+        case "DeletePasswordResetCode":
+            query = `DELETE FROM passwordResetCode WHERE userEmail = '${email}';`;
+            break;
+        
+        case "ResetPassword":
+            query = `UPDATE user SET passwords = '${newPassword}' WHERE userEmail = '${email}';`;
+            break;
+
         default:
             break;
     }

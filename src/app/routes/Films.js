@@ -71,6 +71,13 @@ module.exports = app => {
             }
 
             if (result[0].userName === userName && result[0].passwords === password) {
+
+                // Delete the code from database
+                var email = result[0].userEmail;
+                const connection2 = dbConnection();
+                connection2.query(Queries.Query("DeletePasswordResetCode", null, null, email, null));
+
+
                 res.render(RenderPage, {
                     Page: {
                         userNameLogged: result[0].userName,

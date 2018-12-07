@@ -32,8 +32,11 @@
 
                             <%if (error !== "") { %>
                             <div id="divError" class="alert alert-danger alert-dismissable" style="display: block;">
-                                <span>
-                                    <%= error %></span>
+                                <%if (error == "Invalid Email!.") { %>
+                                    <span><%= error %></span>
+                                <% } else { %>
+                                    <span><%= error %> <a href="/ForgotPassword">new one</a>.</span>
+                                <% } %>
                             </div>
                             <% } %>
 

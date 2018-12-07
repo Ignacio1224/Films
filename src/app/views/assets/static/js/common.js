@@ -12,8 +12,8 @@ $(document).ready(function () {
     });
 
     // Display Modal of Change Password Correct
-    var element = document.getElementById('changePasswordModalCorrect');
-    if (element != null || typeof (element) != undefined) {
+    var changePasswordModal = document.getElementById('changePasswordModalCorrect');
+    if (changePasswordModal != null || typeof (changePasswordModal) != undefined) {
         $('#changePasswordModalCorrect').modal('show');
         $('#changePasswordModalCorrect > div > div').css("background-color", "rgba(24, 200, 26, 0.6)");
 
@@ -21,4 +21,22 @@ $(document).ready(function () {
             $('#changePasswordModalCorrect').modal('hide');
         }, 2000);
     }
+
+    // Display Modal of Reset Password Correct
+    var resetPasswordModal = document.getElementById('resetPasswordModalCorrect');
+    if (resetPasswordModal != null || typeof (resetPasswordModal) != undefined) {
+        $('#resetPasswordModalCorrect').modal('show');
+        $('#resetPasswordModalCorrect > div > div').css("background-color", "rgba(24, 200, 26, 0.6)");
+
+        setTimeout(function () {
+            $('#resetPasswordModalCorrect').modal('hide');
+            
+            if (resetPasswordModal !== null)
+                window.location.replace('/');
+            
+            resetPasswordModal = null;
+        }, 2000);
+
+    }
+
 });

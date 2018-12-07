@@ -37,13 +37,18 @@ module.exports = app => {
         connection.query(Queries.Query("GetUserEmailEmail", null, null, txtUserEmailReset), (err, result) => {
 
             if (result[0] !== undefined && result[0] !== null && result[0] !== "") {
-                // CODE TASK: GENERATE A CODE, SEND IN EMAIL, ADD THIS CODE TO DATABASE
+                // Generate a code
+                let code = Math.floor((Math.random() * 1000) + 1);
+
+                // Add the code to database
+                const connection2 = dbConnection();
+                connection2.query(Queries.Query("InsertPasswordResetCode", null, null, txtUserEmailReset, code));
 
                 // Send Email
                 const urlChP = "/PasswordResetFormCode"
                 const fullUrl = req.protocol + '://' + req.get('host') + urlChP;
                 const subject = "FILMS SYSTEM | Reset Password";
-                const text = `<a href="${fullUrl}">Change Password</a>`;
+                const text = `Insert this code: ${code} <a href="${fullUrl}">here!</a>`;
                 Email.SendEmail(txtUserEmailReset, subject, text, true);
 
                 res.render(ForgotPassDone, {
@@ -82,15 +87,57 @@ module.exports = app => {
             }
 
             if (result[0].resetCode == txtCode) {
-                res.render(ForgotPassForm);
-            } else {
-                // CODE TASK: DELETE CODE OF THIS EMAIL
-                
-                res.render(ForgotPassCode, {
-                    error: "Invalid Code! Send a request for a new one."
+                // Delete the code from database
+                const connection2 = dbConnection();
+                connection2.query(Queries.Query("DeletePasswordResetCode", null, null, txtUserEmailReset, null));
+
+                res.render(ForgotPassForm, {
+                    error : "Init0",
+                    valid : "Init0",
+                    email : txtUserEmailReset
                 });
+
+            } else {
+                // Delete the code from database
+                const connection2 = dbConnection();
+                connection2.query(Queries.Query("DeletePasswordResetCode", null, null, txtUserEmailReset, null));
+
+                res.render(ForgotPassCode, {
+                    error: 'Invalid Code! Send a request for a '
+                });
+
                 return false;
             }
+        });
+
+    });
+
+    //POST
+    app.post('/ChangePasswordReset', (req, res) => {
+        const {
+            txtPasswordNew,
+            txtPasswordNewVerify,
+            txtUserEmailReset
+        } = req.body;
+
+        if (txtPasswordNew != txtPasswordNewVerify || txtPasswordNew.length < 8) {
+            res.render(ForgotPassForm, {
+                error : "Invalid passwords!",
+                valid : "Init0",
+                email : txtUserEmailReset
+            
+            });
+
+            return false;
+        }
+
+        const connection = dbConnection();
+        connection.query(Queries.Query("ResetPassword", null, txtPasswordNew, txtUserEmailReset));
+
+        res.render(ForgotPassForm, {
+            error : "Init0",
+            valid: "Password Changed Successfully!",
+            email : txtUserEmailReset
         });
 
     });
