@@ -12,8 +12,8 @@
             <div class="modal-body">
                 <div class="card card-outline-secondary">
                     <div class="card-body">
-                        <form class="form" role="form" autocomplete="off" method="POST" action="ChangePassword">
-
+                        <form class="form" role="form" autocomplete="off" method="POST" action="ChangePassword" id="changePasswordForm">
+                        <!-- <form role="form" autocomplete="off" class="form"> -->
                             <div class="form-group">
                                 <label for="txtPasswordNew">New Password</label>
                                 <input type="password" class="form-control" id="txtPasswordNew" name="txtPasswordNew"
@@ -31,10 +31,12 @@
                                     To confirm, type the new password again.
                                 </span>
                             </div>
-
+                            <div id="divErrorChangePassword" class="alert alert-danger alert-dismissable" style="display: none;">
+                                <span>Invalid Passwords</span>
+                            </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-success btn-md float-right">Save</button>
+                                <button type="submit" class="btn btn-success btn-md float-right" id="bttnChangePassword">Save</button>
                             </div>
                         </form>
                     </div>

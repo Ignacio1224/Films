@@ -11,6 +11,49 @@ $(document).ready(function () {
         $('#sidebar').toggleClass('active');
     });
 
+    // POST Change Password Form
+    // $('#bttnChangePassword').click(function (event) {
+    //     let newPassword = $('#txtPasswordNew').val();
+    //     let newPasswordVerify = $('#txtPasswordNewVerify').val();
+        
+    //     if (newPassword === newPasswordVerify && newPassword.length > 7) {
+    //         $(this).unbind("click");
+    //         $('#divErrorChangePassword').css("display", "none");
+    //         $.post("ChangePassword", {
+    //             txtPasswordNew: newPassword,
+    //             txtPasswordNew: newPasswordVerify
+    //         });
+    //     } else {
+    //         event.preventDefault();
+    //         $('#divErrorChangePassword').css("display", "block");
+    //     }
+    // });
+
+    $("#changePasswordForm").submit(function (event) {
+
+        let newPassword = $('#txtPasswordNew').val();
+        let newPasswordVerify = $('#txtPasswordNewVerify').val();
+
+        if (newPassword === newPasswordVerify && newPassword.length > 7) {
+            $(this).unbind("click");
+            $('#divErrorChangePassword').css("display", "none");
+            
+            $.ajax({
+                type: "POST",
+                url: "ChangePassword",
+                data: {
+                    txtPasswordNew: newPassword,
+                    txtPasswordNewVerify: newPasswordVerify
+                }
+            });
+
+        } else {
+            event.preventDefault();
+            $('#divErrorChangePassword').css("display", "block");
+        }
+    });
+
+
     // Display Modal of Change Password Correct
     var changePasswordModal = document.getElementById('changePasswordModalCorrect');
     if (changePasswordModal != null || typeof (changePasswordModal) != undefined) {
@@ -30,10 +73,10 @@ $(document).ready(function () {
 
         setTimeout(function () {
             $('#resetPasswordModalCorrect').modal('hide');
-            
+
             if (resetPasswordModal !== null)
                 window.location.replace('/');
-            
+
             resetPasswordModal = null;
         }, 2000);
 

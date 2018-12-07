@@ -92,9 +92,9 @@ module.exports = app => {
                 connection2.query(Queries.Query("DeletePasswordResetCode", null, null, txtUserEmailReset, null));
 
                 res.render(ForgotPassForm, {
-                    error : "Init0",
-                    valid : "Init0",
-                    email : txtUserEmailReset
+                    error: "Init0",
+                    valid: "Init0",
+                    email: txtUserEmailReset
                 });
 
             } else {
@@ -122,10 +122,10 @@ module.exports = app => {
 
         if (txtPasswordNew != txtPasswordNewVerify || txtPasswordNew.length < 8) {
             res.render(ForgotPassForm, {
-                error : "Invalid passwords!",
-                valid : "Init0",
-                email : txtUserEmailReset
-            
+                error: "Invalid passwords!",
+                valid: "Init0",
+                email: txtUserEmailReset
+
             });
 
             return false;
@@ -134,10 +134,15 @@ module.exports = app => {
         const connection = dbConnection();
         connection.query(Queries.Query("ResetPassword", null, txtPasswordNew, txtUserEmailReset));
 
+        // Send Email
+        const subject = "FILMS SYSTEM | Password Changed!";
+        const text = "Your password has been changed correctly.";
+        Email.SendEmail(result2[0].userEmail, subject, text);
+
         res.render(ForgotPassForm, {
-            error : "Init0",
+            error: "Init0",
             valid: "Password Changed Successfully!",
-            email : txtUserEmailReset
+            email: txtUserEmailReset
         });
 
     });
