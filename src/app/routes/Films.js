@@ -171,6 +171,9 @@ module.exports = app => {
         });
     });
 
+    // POST
+    
+
 
     // #################################### DELETE FILM ####################################
     // GET
@@ -193,9 +196,9 @@ module.exports = app => {
     });
 
 
-    // #################################### MODIFY FILM ####################################
+    // #################################### EDIT FILM ####################################
     // GET
-    app.get('/ModifyFilm', (req, res) => {
+    app.get('/EditFilm', (req, res) => {
         if (LoggedUser === null) {
             res.render("LogIn/LogIn", {
                 error: "User not logged"
@@ -206,8 +209,8 @@ module.exports = app => {
         res.render(RenderPage, {
             Page: {
                 userNameLogged: LoggedUser,
-                titleTab: "Modify Film",
-                sidebarClass: "ModifyFilm",
+                titleTab: "Edit Film",
+                sidebarClass: "EditFilm",
                 changePassword: false
             }
         });

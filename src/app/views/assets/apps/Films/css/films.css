@@ -179,17 +179,17 @@ span {
     margin-right: 10px;
 }
 
-#sidebar ul li.active > a {
+#sidebar ul li.active>a {
     color: #fff;
     background: rgb(124, 12, 124);
 }
 
-#pageSubmenu li.active > a {
+#pageSubmenu li.active>a {
     color: #fff;
     background: rgb(160, 16, 160) !important;
 }
 
-#pageSubmenu li.active > a:hover {
+#pageSubmenu li.active>a:hover {
     color: rgba(194, 14, 154, 0.6);
     background: #fff !important;
 }
@@ -305,3 +305,35 @@ ul.CTAs a {
 }
 
 /* Customize Range Input in ADD FILM */
+#rangePoints {
+    width: 95%;
+}
+
+#rangePoints::-moz-range-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(194, 14, 154, 0.6);
+    border: none;
+    border-radius: 2px;
+}
+
+#rangePoints::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(194, 14, 154, 0.6);
+    border: none;
+    border-radius: 2px;
+}
+
+#rangePoints::-webkit-slider-thumb {
+    margin-top: -6px;
+}
+
+#rangePoints::-moz-range-progress {
+    background: rgba(194, 14, 154, 0.9);
+}
+
+#rangePointsValue {
+    margin-left: 2%;
+    vertical-align: top
+}
