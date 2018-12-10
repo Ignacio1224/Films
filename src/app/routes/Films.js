@@ -62,7 +62,7 @@ module.exports = app => {
         } = req.body;
 
         connection.query(Queries.Query("GetUserComplete", userName), (err, result) => {
-            
+
             if (result.length === 0) {
                 res.render("LogIn/LogIn", {
                     error: "User or Password Incorrect"
@@ -75,8 +75,7 @@ module.exports = app => {
                 // Delete the code from database
                 var email = result[0].userEmail;
                 const connection2 = dbConnection();
-                connection2.query(Queries.Query("DeletePasswordResetCode", null, null, email, null));
-
+                connection2.query(Queries.Query("DeletePasswordResetCode", email));
 
                 res.render(RenderPage, {
                     Page: {
@@ -86,11 +85,13 @@ module.exports = app => {
                         changePassword: false
                     }
                 });
+
             } else {
                 res.render("LogIn/LogIn", {
                     error: "User or Password Incorrect"
                 });
             }
+
             // Set userLogged
             LoggedUser = result[0].userName;
         });
@@ -123,12 +124,12 @@ module.exports = app => {
         } = req.body;
 
         if (txtPasswordNew.length >= 8 && (txtPasswordNew === txtPasswordNewVerify)) {
-            
-            connection.query(Queries.Query("UpdateUserPassword",LoggedUser, txtPasswordNew), (err, result) => {
-                
+
+            connection.query(Queries.Query("UpdateUserPassword", LoggedUser, txtPasswordNew), (err, result) => {
+
                 const connection2 = dbConnection();
                 connection2.query(Queries.Query("GetUserEmail", LoggedUser), (err, result2) => {
-                    
+
                     // Send Email
                     const subject = "FILMS SYSTEM | Password Changed!";
                     const text = "Your password has been changed correctly.";
@@ -139,10 +140,18 @@ module.exports = app => {
                             userNameLogged: LoggedUser,
                             titleTab: "Dashboard",
                             sidebarClass: "Home",
-                            changePassword: true
+                            changePassword: true,
+                            AddFilm: {
+                                filmName: "",
+                                duration: "",
+                                memoryAddress: "",
+                                points: 50,
+                                messaje: "",
+                                class: "alert-init"
+                            }
                         }
                     });
-    
+
                 });
 
             });
@@ -165,14 +174,78 @@ module.exports = app => {
                 userNameLogged: LoggedUser,
                 titleTab: "Add Film",
                 sidebarClass: "AddFilm",
-                changePassword: false
+                changePassword: false,
+                AddFilm: {
+                    filmName: "",
+                    duration: "",
+                    memoryAddress: "",
+                    points: 50,
+                    messaje: "",
+                    clas: "alert-init"
+                }
             }
-
         });
     });
 
     // POST
-    
+    app.post('/AddFilm', (req, res) => {
+        if (LoggedUser === null) {
+            res.render("LogIn/LogIn", {
+                error: "User not logged"
+            });
+            return false;
+        }
+
+        const {
+            txtFilmName,
+            txtDuration,
+            txtMemoryAddress,
+            txtPoints
+        } = req.body;
+
+        const points = parseInt(txtPoints);
+
+        if (txtFilmName === "" || txtDuration === "" || txtPoints === "" || points === NaN) {
+            res.render(RenderPage, {
+                Page: {
+                    userNameLogged: LoggedUser,
+                    titleTab: "Add Film",
+                    sidebarClass: "AddFilm",
+                    changePassword: false,
+                    AddFilm: {
+                        filmName: txtFilmName,
+                        duration: txtDuration,
+                        memoryAddress: txtMemoryAddress,
+                        points: txtPoints,
+                        messaje: "Invalid Fields!",
+                        clas: "alert-danger"
+                    }
+                }
+            });
+        }
+
+        connection.query(Queries.Query("InsertFilm", txtFilmName, txtDuration, txtMemoryAddress, points, LoggedUser), (err, res) => {
+            console.log(err);
+            
+            res.render(RenderPage, {
+                Page: {
+                    userNameLogged: LoggedUser,
+                    titleTab: "Add Film",
+                    sidebarClass: "AddFilm",
+                    changePassword: false,
+                    AddFilm: {
+                        filmName: txtFilmName,
+                        duration: txtDuration,
+                        memoryAddress: txtMemoryAddress,
+                        points: txtPoints,
+                        messaje: "Film Added Successfully!",
+                        clas: "alert-success"
+                    }
+                }
+            });
+        });
+
+    });
 
 
     // #################################### DELETE FILM ####################################

@@ -1,20 +1,21 @@
 <div class="card card-outline-secondary">
     <div class="card-header">
-
-        <h3 class="mb-0"><span class="fas fa-edit"></span> Edit Film</h3>
+        <h3 class="mb-0"><span class="fas fa-edit"></span> Edit Film <span class='alert <%=Page["AddFilm"]["clas"]%> alert-dismissable ml-5'> <%= Page['AddFilm']["messaje"] %></span></h3>
     </div>
     <div class="card-body">
         <form class="form" role="form" autocomplete="off" method="POST" action="/AddFilm">
             <div class="form-group row">
                 <label class="col-lg-3 col-form-label form-control-label">Film Name</label>
                 <div class="col-lg-9">
-                    <input class="form-control" type="text" placeholder="Film Name" required />
+                    <input class="form-control" type="text" placeholder="Film Name" id="txtFilmName" name="txtFilmName"
+                        required />
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-lg-3 col-form-label form-control-label">Duration</label>
                 <div class="col-lg-9">
-                    <input class="form-control" type="number" min="1" max="1000" required />
+                    <input class="form-control" type="number" min="1" max="1000" id="txtDuration" name="txtDuration"
+                        required />
                 </div>
             </div>
             <div class="form-group row">
@@ -22,7 +23,7 @@
                 <div class="input-group col-lg-9">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"
-                            required />
+                            id="txtMemoryAddress" name="txtMemoryAddress" />
                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                     </div>
                 </div>
@@ -31,7 +32,7 @@
                 <label class="col-lg-3 col-form-label form-control-label">Points</label>
                 <div class="col-lg-9">
                     <div id="range-slider" class="pt-2">
-                        <input id="rangePoints" type="range" value="50" min="0" max="100" />
+                        <input id="rangePoints" type="range" value="50" min="0" max="100" id="txtPoints" name="txtPoints" />
                         <span id="rangePointsValue">50</span>
                     </div>
                 </div>

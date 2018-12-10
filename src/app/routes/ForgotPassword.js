@@ -34,7 +34,7 @@ module.exports = app => {
 
         let emailDomain = txtUserEmailReset.split('@')[1];
 
-        connection.query(Queries.Query("GetUserEmailEmail", null, null, txtUserEmailReset), (err, result) => {
+        connection.query(Queries.Query("GetUserEmailEmail", txtUserEmailReset), (err, result) => {
 
             if (result[0] !== undefined && result[0] !== null && result[0] !== "") {
                 // Generate a code
@@ -42,7 +42,7 @@ module.exports = app => {
 
                 // Add the code to database
                 const connection2 = dbConnection();
-                connection2.query(Queries.Query("InsertPasswordResetCode", null, null, txtUserEmailReset, code));
+                connection2.query(Queries.Query("InsertPasswordResetCode", txtUserEmailReset, code));
 
                 // Send Email
                 const urlChP = "/PasswordResetFormCode"
@@ -78,7 +78,7 @@ module.exports = app => {
             txtCode
         } = req.body;
 
-        connection.query(Queries.Query("GetPasswordResetCode", null, null, txtUserEmailReset, txtCode), (err, result) => {
+        connection.query(Queries.Query("GetPasswordResetCode", txtUserEmailReset, txtCode), (err, result) => {
             if (result.length === 0) {
                 res.render(ForgotPassCode, {
                     error: "Invalid Email!."
@@ -89,7 +89,7 @@ module.exports = app => {
             if (result[0].resetCode == txtCode) {
                 // Delete the code from database
                 const connection2 = dbConnection();
-                connection2.query(Queries.Query("DeletePasswordResetCode", null, null, txtUserEmailReset, null));
+                connection2.query(Queries.Query("DeletePasswordResetCode", txtUserEmailReset));
 
                 res.render(ForgotPassForm, {
                     error: "Init0",
@@ -100,7 +100,7 @@ module.exports = app => {
             } else {
                 // Delete the code from database
                 const connection2 = dbConnection();
-                connection2.query(Queries.Query("DeletePasswordResetCode", null, null, txtUserEmailReset, null));
+                connection2.query(Queries.Query("DeletePasswordResetCode",txtUserEmailReset));
 
                 res.render(ForgotPassCode, {
                     error: 'Invalid Code! Send a request for a '
@@ -132,7 +132,7 @@ module.exports = app => {
         }
 
         const connection = dbConnection();
-        connection.query(Queries.Query("ResetPassword", null, txtPasswordNew, txtUserEmailReset));
+        connection.query(Queries.Query("ResetPassword", txtPasswordNew, txtUserEmailReset));
 
         // Send Email
         const subject = "FILMS SYSTEM | Password Changed!";

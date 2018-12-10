@@ -304,6 +304,11 @@ ul.CTAs a {
     }
 }
 
+/* Alert Init */
+.alert-init {
+    display: none;
+}
+
 /* Customize Range Input in ADD FILM */
 #rangePoints {
     width: 95%;
