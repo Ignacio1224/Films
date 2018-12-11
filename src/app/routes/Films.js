@@ -224,24 +224,47 @@ module.exports = app => {
             });
         }
 
-        connection.query(Queries.Query("InsertFilm", txtFilmName, txtDuration, txtMemoryAddress, points, LoggedUser), (err, res) => {
-            console.log(err);
-            
-            res.render(RenderPage, {
-                Page: {
-                    userNameLogged: LoggedUser,
-                    titleTab: "Add Film",
-                    sidebarClass: "AddFilm",
-                    changePassword: false,
-                    AddFilm: {
-                        filmName: txtFilmName,
-                        duration: txtDuration,
-                        memoryAddress: txtMemoryAddress,
-                        points: txtPoints,
-                        messaje: "Film Added Successfully!",
-                        clas: "alert-success"
-                    }
+        // Modificar con un if si se vio la peli o no y se quiere agregar Decidir
+        connection.query(Queries.Query("InsertFilm", txtFilmName, txtDuration, txtMemoryAddress), (err, result) => {
+
+            const connection2 = dbConnection();
+            connection2.query(Queries.Query("GetFilmId", txtFilmName), (err2, result2) => {
+
+                let filmID = result2[0].idFilm;
+                let todayDate = new Date();
+                let dd = todayDate.getDate();
+                let mm = todayDate.getMonth() + 1;
+                let yyyy = todayDate.getFullYear();
+
+                if (dd < 10) {
+                    dd = '0' + dd;
                 }
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+
+                todayDate = yyyy + '/' + mm + '/' + dd;
+
+                const connection3 = dbConnection();
+                connection3.query(Queries.Query("InsertSees", filmID, LoggedUser, todayDate), (err3, result3) => {
+
+                    res.render(RenderPage, {
+                        Page: {
+                            userNameLogged: LoggedUser,
+                            titleTab: "Add Film",
+                            sidebarClass: "AddFilm",
+                            changePassword: false,
+                            AddFilm: {
+                                filmName: txtFilmName,
+                                duration: txtDuration,
+                                memoryAddress: txtMemoryAddress,
+                                points: txtPoints,
+                                messaje: "Film Added Successfully!",
+                                clas: "alert-success"
+                            }
+                        }
+                    });
+                });
             });
         });
 

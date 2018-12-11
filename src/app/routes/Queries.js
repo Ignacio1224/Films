@@ -35,8 +35,15 @@ module.exports.Query = function Query(Name, f1 = null, f2 = null, f3 = null, f4 
 
         // REVISARRRR
         case "InsertFilm":
-            query = `INSERT INTO sees (idFilm, userName, viewDate) VALUES ('SELECT idFilm FROM film WHERE filmName = Pacific Rim 1', 'Ignacio', 'SELECT CURDATE()');`;
-            console.log(query)
+            query = `INSERT INTO film (filmName, filmDuration, memoryAddress) VALUES ('${f1}', '${f2}', '${f3}');`;
+        break;
+        
+        case "GetFilmId":
+            query = `SELECT idFilm FROM film WHERE filmName = '${f1}';`;
+            break;
+
+        case "InsertSees":
+            query = `INSERT INTO sees (idFilm, userName, viewDate) VALUES ('${f1}','${f2}','${f3}');`;
             break;
 
         default:
