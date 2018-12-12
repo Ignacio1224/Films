@@ -88,4 +88,16 @@ $(document).ready(function () {
 
     rangeSlider();
 
+    /* ######################## VIEW FILM ######################## */
+    // Icon of Search in PlaceHolders' input
+    $('input[type="search"]').change(function () {
+        if ($(this).val().length > 0) {
+            $(this).css('font-family', 'Poppins, sans-serif');
+            $(this).css('font-weight', 400);
+            
+        } else {
+            $(this).removeAttr('style');
+        }
+    });
+
 });

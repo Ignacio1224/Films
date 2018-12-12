@@ -1,6 +1,9 @@
 // Database Connection
 const dbConnection = require('../../config/dbConnection');
 
+// AddFilmPage
+const GenPage = require('./Pages');
+
 // Send Mail
 const Email = require('./SendMail');
 
@@ -70,7 +73,7 @@ module.exports = app => {
                 return false;
             }
 
-            if (result[0].userName === userName && result[0].passwords === password) {
+            if (result[0].userName === userName && result[0].userPassword === password) {
 
                 // Delete the code from database
                 var email = result[0].userEmail;
@@ -170,20 +173,7 @@ module.exports = app => {
         }
 
         res.render(RenderPage, {
-            Page: {
-                userNameLogged: LoggedUser,
-                titleTab: "Add Film",
-                sidebarClass: "AddFilm",
-                changePassword: false,
-                AddFilm: {
-                    filmName: "",
-                    duration: "",
-                    memoryAddress: "",
-                    points: 50,
-                    messaje: "",
-                    clas: "alert-init"
-                }
-            }
+            Page : GenPage.GeneratePage('', LoggedUser, false, 'alert-init', 'AddFilm')
         });
     });
 
@@ -200,72 +190,66 @@ module.exports = app => {
             txtFilmName,
             txtDuration,
             txtMemoryAddress,
-            txtPoints
+            txtPoints,
+            chbxViewed
         } = req.body;
 
         const points = parseInt(txtPoints);
 
         if (txtFilmName === "" || txtDuration === "" || txtPoints === "" || points === NaN) {
             res.render(RenderPage, {
-                Page: {
-                    userNameLogged: LoggedUser,
-                    titleTab: "Add Film",
-                    sidebarClass: "AddFilm",
-                    changePassword: false,
-                    AddFilm: {
-                        filmName: txtFilmName,
-                        duration: txtDuration,
-                        memoryAddress: txtMemoryAddress,
-                        points: txtPoints,
-                        messaje: "Invalid Fields!",
-                        clas: "alert-danger"
-                    }
-                }
+                Page : GenPage.GeneratePage('Invalid Fields', LoggedUser, false, 'alert-danger', 'AddFilm')
             });
         }
 
-        // Modificar con un if si se vio la peli o no y se quiere agregar Decidir
         connection.query(Queries.Query("InsertFilm", txtFilmName, txtDuration, txtMemoryAddress), (err, result) => {
+            if (!err) {
 
-            const connection2 = dbConnection();
-            connection2.query(Queries.Query("GetFilmId", txtFilmName), (err2, result2) => {
+                if (chbxViewed == "1") {
 
-                let filmID = result2[0].idFilm;
-                let todayDate = new Date();
-                let dd = todayDate.getDate();
-                let mm = todayDate.getMonth() + 1;
-                let yyyy = todayDate.getFullYear();
+                    const connection2 = dbConnection();
+                    connection2.query(Queries.Query("GetFilmId", txtFilmName), (err2, result2) => {
 
-                if (dd < 10) {
-                    dd = '0' + dd;
-                }
-                if (mm < 10) {
-                    mm = '0' + mm;
-                }
+                        let filmID = result2[0].filmId;
+                        let todayDate = new Date();
+                        let dd = todayDate.getDate();
+                        let mm = todayDate.getMonth() + 1;
+                        let yyyy = todayDate.getFullYear();
 
-                todayDate = yyyy + '/' + mm + '/' + dd;
-
-                const connection3 = dbConnection();
-                connection3.query(Queries.Query("InsertSees", filmID, LoggedUser, todayDate), (err3, result3) => {
-
-                    res.render(RenderPage, {
-                        Page: {
-                            userNameLogged: LoggedUser,
-                            titleTab: "Add Film",
-                            sidebarClass: "AddFilm",
-                            changePassword: false,
-                            AddFilm: {
-                                filmName: txtFilmName,
-                                duration: txtDuration,
-                                memoryAddress: txtMemoryAddress,
-                                points: txtPoints,
-                                messaje: "Film Added Successfully!",
-                                clas: "alert-success"
-                            }
+                        if (dd < 10) {
+                            dd = '0' + dd;
                         }
+                        if (mm < 10) {
+                            mm = '0' + mm;
+                        }
+
+                        todayDate = yyyy + '/' + mm + '/' + dd;
+
+                        const connection3 = dbConnection();
+                        connection3.query(Queries.Query("InsertSees", filmID, LoggedUser, todayDate), (err3, result3) => {
+                            
+                            if (!err3) {
+                                res.render(RenderPage, {
+                                    Page : GenPage.GeneratePage('Film Added Successfully', LoggedUser, false, 'alert-success', 'AddFilm')
+                                });
+                            } else {
+                                res.render(RenderPage, {
+                                    Page : GenPage.GeneratePage('Can Not Add This Film', LoggedUser, false, 'alert-danger', 'AddFilm')
+                                });
+                            }
+                        });
                     });
+                } else {
+                    res.render(RenderPage, {
+                        Page : GenPage.GeneratePage('Film Added Successfully', LoggedUser, false, 'alert-success', 'AddFilm')
+                    });
+                }
+            } else {
+                res.render(RenderPage, {
+                    Page : GenPage.GeneratePage('Can Not Add This Film', LoggedUser, false, 'alert-danger', 'AddFilm')
                 });
-            });
+            }
+
         });
 
     });
@@ -324,12 +308,13 @@ module.exports = app => {
         }
 
         res.render(RenderPage, {
-            Page: {
-                userNameLogged: LoggedUser,
-                titleTab: "View Film",
-                sidebarClass: "ViewFilm",
-                changePassword: false
-            }
+            // Page: {
+            //     userNameLogged: LoggedUser,
+            //     titleTab: "View Film",
+            //     sidebarClass: "ViewFilm",
+            //     changePassword: false
+            // }
+            Page : GenPage.GeneratePage('', LoggedUser, false, 'alert-init', 'ViewFilm')
         });
     });
 
