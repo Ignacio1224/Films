@@ -226,7 +226,7 @@ module.exports = app => {
                         todayDate = yyyy + '/' + mm + '/' + dd;
 
                         const connection3 = dbConnection();
-                        connection3.query(Queries.Query("InsertSees", filmID, LoggedUser, todayDate), (err3, result3) => {
+                        connection3.query(Queries.Query("InsertSees", filmID, LoggedUser, points, todayDate), (err3, result3) => {
                             
                             if (!err3) {
                                 res.render(RenderPage, {
@@ -308,14 +308,30 @@ module.exports = app => {
         }
 
         res.render(RenderPage, {
-            // Page: {
-            //     userNameLogged: LoggedUser,
-            //     titleTab: "View Film",
-            //     sidebarClass: "ViewFilm",
-            //     changePassword: false
-            // }
             Page : GenPage.GeneratePage('', LoggedUser, false, 'alert-init', 'ViewFilm')
         });
+    });
+
+
+    app.get('/FillTable', (req, res) => {
+        if (LoggedUser === null) {
+            res.render("LogIn/LogIn", {
+                error: "User not logged"
+            });
+            return false;
+        }
+
+        let filter = req.query.filter;
+        
+        if (!filter){
+            connection.query(Queries.Query("GetFilm"), (err, result) => {
+                res.json(result);
+            });
+        } else {
+            connection.query(Queries.Query("GetFilm", filter), (err, result) => {
+                res.json(result);
+            });
+        }
     });
 
 }

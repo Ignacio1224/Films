@@ -20,7 +20,7 @@ $(document).ready(function () {
         if (newPassword === newPasswordVerify && newPassword.length > 7) {
             $(this).unbind("click");
             $('#divErrorChangePassword').css("display", "none");
-            
+
             $.ajax({
                 type: "POST",
                 url: "ChangePassword",
@@ -89,15 +89,77 @@ $(document).ready(function () {
     rangeSlider();
 
     /* ######################## VIEW FILM ######################## */
+    // Fill the table
+    FillTable();
+
+
+
     // Icon of Search in PlaceHolders' input
-    $('input[type="search"]').change(function () {
+    $('#txtSearchFilm').keyup(function () {
         if ($(this).val().length > 0) {
             $(this).css('font-family', 'Poppins, sans-serif');
             $(this).css('font-weight', 400);
-            
+            FillTable($(this).val())
         } else {
             $(this).removeAttr('style');
+            FillTable();
         }
     });
 
 });
+
+function FillTable(filter = null) {
+    // Clear the table
+    $('#tbodyViewFilm').html('');
+
+    // GET DATA OF DATABASE
+    let data;
+    if (!filter) {
+        data = $.ajax({
+            url: "/FillTable",
+            dataType: 'json',
+            type: 'GET',
+            success: function (e) {
+                ActionFillTable(e);
+            }
+        });
+    } else {
+        data = $.ajax({
+            url: "/FillTable?filter=" + filter,
+            dataType: 'json',
+            type: 'GET',
+            success: function (e) {
+                console.log(e);
+
+                ActionFillTable(e);
+            }
+        });
+    }
+
+}
+
+function ActionFillTable(films) {
+
+    for (const f of films) {
+        let filmDuration = (f.filmDuration === "" || f.filmDuration === undefined || !f.filmDuration) ? "------" : f.filmDuration + " min";
+        let memoryAddress = (f.memoryAddress === "" || f.memoryAddress === undefined || !f.memoryAddress) ? "------" : f.memoryAddress;
+        let rating = (f.reting === "" || f.rating === undefined || !f.rating) ? "------" : f.rating;
+
+        let date = new Date(f.viewDate);
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let dt = date.getDate();
+
+        if (dt < 10) {
+            dt = '0' + dt;
+        }
+        if (month < 10) {
+            month = '0' + month;
+        }
+
+        let viewDate = month + ' / ' + dt + ' / ' + year;
+
+
+        $('#tbodyViewFilm').append(`<tr><td>${f.filmName}</td><td>${filmDuration}</td><td>${rating}</td><td>${memoryAddress}</td><td>${viewDate}</td></tr>`);
+    }
+}

@@ -43,7 +43,16 @@ module.exports.Query = function Query(Name, f1 = null, f2 = null, f3 = null, f4 
             break;
 
         case "InsertSees":
-            query = `INSERT INTO ViewedFilm (filmId, userName, viewDate) VALUES ('${f1}','${f2}','${f3}');`;
+            query = `INSERT INTO ViewedFilm (filmId, userName, rating, viewDate) VALUES ('${f1}', '${f2}', '${f3}', '${f4}');`;
+            break;
+
+        case "GetFilm":
+            query = `SELECT FILM.filmName, FILM.filmDuration, FILM.memoryAddress, ViewedFilm.rating, ViewedFilm.viewDate FROM FILM JOIN ViewedFilm ON FILM.filmId = ViewedFilm.filmId`;
+
+            if (f1) {
+                query += ` WHERE filmName LIKE '%${f1}%'`;
+            }
+
             break;
 
         default:

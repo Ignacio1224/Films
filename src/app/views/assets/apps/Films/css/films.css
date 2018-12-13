@@ -342,3 +342,21 @@ ul.CTAs a {
     margin-left: 2%;
     vertical-align: top
 }
+
+/* VIEW FILM */
+#txtSearchFilm {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: relative;
+    left: 78%;
+}
+
+.tbody-stripped>tr:nth-child(odd) {
+    background: #a48fb1;
+    border: 1px solid #a48fb1;
+}
+
+.tbody-stripped>tr:nth-child(even) {
+    background: #8a6ea0;
+    border: 1px solid #8a6ea0;;
+}
