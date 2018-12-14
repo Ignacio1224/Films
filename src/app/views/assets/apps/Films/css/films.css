@@ -360,3 +360,11 @@ ul.CTAs a {
     background: #8a6ea0;
     border: 1px solid #8a6ea0;;
 }
+
+.select2 {
+    width: 100% !important;
+}
+
+.select2 > * {
+    width: 100% !important;
+}

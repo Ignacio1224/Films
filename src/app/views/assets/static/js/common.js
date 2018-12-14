@@ -106,6 +106,23 @@ $(document).ready(function () {
         }
     });
 
+
+    /* ######################## VIEW FILM ######################## */
+    // Fill the dropdown with films on database
+    $.ajax({
+        url: "/GetAllFilms",
+        dataType: 'json',
+        type: "GET",
+        success: function (e){
+            ActionFillComboBox(e);
+        }
+    });
+
+
+
+    /* ######################## DELETE FILM ######################## */
+    $('#cmbFilmName').select2();
+
 });
 
 function FillTable(filter = null) {
@@ -113,10 +130,9 @@ function FillTable(filter = null) {
     $('#tbodyViewFilm').html('');
 
     // GET DATA OF DATABASE
-    let data;
     if (!filter) {
-        data = $.ajax({
-            url: "/FillTable",
+        $.ajax({
+            url: "/GetAllFilms",
             dataType: 'json',
             type: 'GET',
             success: function (e) {
@@ -124,13 +140,11 @@ function FillTable(filter = null) {
             }
         });
     } else {
-        data = $.ajax({
-            url: "/FillTable?filter=" + filter,
+        $.ajax({
+            url: "/GetAllFilms?filter=" + filter,
             dataType: 'json',
             type: 'GET',
             success: function (e) {
-                console.log(e);
-
                 ActionFillTable(e);
             }
         });
@@ -161,5 +175,11 @@ function ActionFillTable(films) {
 
 
         $('#tbodyViewFilm').append(`<tr><td>${f.filmName}</td><td>${filmDuration}</td><td>${rating}</td><td>${memoryAddress}</td><td>${viewDate}</td></tr>`);
+    }
+}
+
+function ActionFillComboBox(films) {
+    for (const f of films) {
+        $("#cmbFilmName").append(`<option value="${f.filmName}">${f.filmName}</option>`);
     }
 }
