@@ -29,7 +29,7 @@ module.exports.Query = function Query(Name, f1 = null, f2 = null, f3 = null, f4 
         case "DeletePasswordResetCode":
             query = `DELETE FROM PASSWORDRESETCODE WHERE userEmail = '${f1}';`;
             break;
-        
+
         case "ResetPassword":
             query = `UPDATE SYSTEMUSER SET userPassword = '${f1}' WHERE userEmail = '${f2}';`;
             break;
@@ -37,7 +37,7 @@ module.exports.Query = function Query(Name, f1 = null, f2 = null, f3 = null, f4 
         case "InsertFilm":
             query = `INSERT INTO FILM (filmName, filmDuration, memoryAddress) VALUES ('${f1}', '${f2}', '${f3}');`;
             break;
-        
+
         case "GetFilmId":
             query = `SELECT filmId FROM FILM WHERE filmName = '${f1}';`;
             break;
@@ -47,19 +47,22 @@ module.exports.Query = function Query(Name, f1 = null, f2 = null, f3 = null, f4 
             break;
 
         case "GetFilm":
-            if (f1 === "7896541236") {
-                query = `SELECT * FROM FILM;`
+            if (f2 === "7896541236") {
+                query = `SELECT * FROM FILM`;
 
             } else {
                 query = `SELECT FILM.filmName, FILM.filmDuration, FILM.memoryAddress, ViewedFilm.rating, ViewedFilm.viewDate FROM FILM JOIN ViewedFilm ON FILM.filmId = ViewedFilm.filmId`;
-                
-                if (f1) {
-                    query += ` WHERE filmName LIKE '%${f1}%';`;
-                }
+
+            }
+
+            if (f1) {
+                query += ` WHERE filmName LIKE '%${f1}%';`;
+            } else {
+                query += ';';
             }
 
             break;
-        
+
         case "DeleteViewedFilm":
             query = `DELETE FROM ViewedFilm WHERE filmId = '${f1}';`;
             break;

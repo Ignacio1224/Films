@@ -90,7 +90,12 @@ $(document).ready(function () {
 
     /* ######################## VIEW FILM ######################## */
     // Fill the table
-    FillTable();
+    let viewed = $('#chbxViewed:checked').val();
+    FillTable(null, viewed);
+    $('#chbxViewed').change(function () {
+        let viewed = $('#chbxViewed:checked').val();
+        FillTable(null, viewed)
+    });
 
 
 
@@ -99,10 +104,12 @@ $(document).ready(function () {
         if ($(this).val().length > 0) {
             $(this).css('font-family', 'Poppins, sans-serif');
             $(this).css('font-weight', 400);
-            FillTable($(this).val())
+            let viewed = $('#chbxViewed:checked').val();
+            FillTable($(this).val(), viewed)
         } else {
             $(this).removeAttr('style');
-            FillTable();
+            let viewed = $('#chbxViewed:checked').val();
+            FillTable(null, viewed);
         }
     });
 
@@ -110,10 +117,10 @@ $(document).ready(function () {
     /* ######################## DELETE FILM ######################## */
     // Fill the dropdown with films on database
     $.ajax({
-        url: "/GetAllFilms?filter=7896541236",
+        url: "/GetAllFilms?option=7896541236",
         dataType: 'json',
         type: "GET",
-        success: function (e){
+        success: function (e) {
             ActionFillComboBox(e);
         }
     });
@@ -125,34 +132,35 @@ $(document).ready(function () {
 
 });
 
-function FillTable(filter = null) {
+function FillTable(filter = null, viewed = null) {
     // Clear the table
     $('#tbodyViewFilm').html('');
 
     // GET DATA OF DATABASE
+
     if (!filter) {
         $.ajax({
-            url: "/GetAllFilms",
+            url: "/GetAllFilms?option=" + viewed + "&filter=",
             dataType: 'json',
             type: 'GET',
             success: function (e) {
-                ActionFillTable(e);
+                ActionFillTable(e, viewed);
             }
         });
     } else {
         $.ajax({
-            url: "/GetAllFilms?filter=" + filter,
+            url: "/GetAllFilms?option=" + viewed + "&filter=" + filter,
             dataType: 'json',
             type: 'GET',
             success: function (e) {
-                ActionFillTable(e);
+                ActionFillTable(e, viewed);
             }
         });
     }
 
 }
 
-function ActionFillTable(films) {
+function ActionFillTable(films, all) {
 
     for (const f of films) {
         let filmDuration = (f.filmDuration === "" || f.filmDuration === undefined || !f.filmDuration) ? "------" : f.filmDuration + " min";
@@ -173,8 +181,13 @@ function ActionFillTable(films) {
 
         let viewDate = month + ' / ' + dt + ' / ' + year;
 
-
-        $('#tbodyViewFilm').append(`<tr><td>${f.filmName}</td><td>${filmDuration}</td><td>${rating}</td><td>${memoryAddress}</td><td>${viewDate}</td></tr>`);
+        if (all === "7896541236") {
+            $('#trViewFilm').html('<th scope="col">Film Name</th><th scope="col">Film Duration</th><th scope="col">Address</th>');
+            $('#tbodyViewFilm').append(`<tr><td>${f.filmName}</td><td>${filmDuration}</td><td>${memoryAddress}</td></tr>`);
+        } else {
+            $('#trViewFilm').html('<th scope="col">Film Name</th><th scope="col">Film Duration</th><th scope="col">Rating</th><th scope="col">Address</th><th scope="col">Viewed Date</th>');
+            $('#tbodyViewFilm').append(`<tr><td>${f.filmName}</td><td>${filmDuration}</td><td>${rating}</td><td>${memoryAddress}</td><td>${viewDate}</td></tr>`);
+        }
     }
 }
 

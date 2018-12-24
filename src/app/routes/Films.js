@@ -373,14 +373,15 @@ module.exports = app => {
             return false;
         }
 
-        let filter = req.query.filter;
+        let filter = req.query.filter, option = req.query.option;
+        
 
         if (!filter) {
-            connection.query(Queries.Query("GetFilm"), (err, result) => {
+            connection.query(Queries.Query("GetFilm", filter, option), (err, result) => {
                 res.json(result);
             });
         } else {
-            connection.query(Queries.Query("GetFilm", filter), (err, result) => {
+            connection.query(Queries.Query("GetFilm", filter, option), (err, result) => {
                 res.json(result);
             });
         }

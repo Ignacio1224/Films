@@ -347,8 +347,6 @@ ul.CTAs a {
 #txtSearchFilm {
     font-family: 'Font Awesome 5 Free';
     font-weight: 900;
-    position: relative;
-    left: 78%;
 }
 
 .tbody-stripped>tr:nth-child(odd) {
