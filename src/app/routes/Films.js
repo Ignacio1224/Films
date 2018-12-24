@@ -202,114 +202,55 @@ module.exports = app => {
             });
         }
 
-        try {
-            connection.query(Queries.Query("InsertFilm", txtFilmName, txtDuration, txtMemoryAddress));
-            if (chbxViewed == "1") {
-                try {
+        connection.query(Queries.Query("InsertFilm", txtFilmName, txtDuration, txtMemoryAddress), (err, result) => {
+            if (!err) {
+
+                if (chbxViewed == "1") {
 
                     const connection2 = dbConnection();
-                    let a = connection2.query(Queries.Query("GetFilmId", txtFilmName), (err1, result1) => {return result1});
-                    console.log(a.result)
+                    connection2.query(Queries.Query("GetFilmId", txtFilmName), (err2, result2) => {
 
-                    // let filmID = result2[0].filmId;
-                    // let todayDate = new Date();
-                    // let dd = todayDate.getDate();
-                    // let mm = todayDate.getMonth() + 1;
-                    // let yyyy = todayDate.getFullYear();
+                        let filmID = result2[0].filmId;
+                        let todayDate = new Date();
+                        let dd = todayDate.getDate();
+                        let mm = todayDate.getMonth() + 1;
+                        let yyyy = todayDate.getFullYear();
 
-                    // if (dd < 10) {
-                    //     dd = '0' + dd;
-                    // }
-                    // if (mm < 10) {
-                    //     mm = '0' + mm;
-                    // }
+                        if (dd < 10) {
+                            dd = '0' + dd;
+                        }
+                        if (mm < 10) {
+                            mm = '0' + mm;
+                        }
 
-                    // todayDate = yyyy + '/' + mm + '/' + dd;
+                        todayDate = yyyy + '/' + mm + '/' + dd;
 
-                    // try {
+                        const connection3 = dbConnection();
+                        connection3.query(Queries.Query("InsertViewed", filmID, LoggedUser, points, todayDate), (err3, result3) => {
 
-                    //     const connection3 = dbConnection();
-                    //     connection3.query(Queries.Query("InsertViewed", filmID, LoggedUser, points, todayDate));
-                    //     console.log("BBBBBBBBB")
-                    //     res.render(RenderPage, {
-                    //         Page: GenPage.GeneratePage('Film Added Successfully', LoggedUser, false, 'alert-success', 'AddFilm')
-                    //     });
-                    // } catch (error1) {
-                    //     console.log(error1);
-
-                    //     res.render(RenderPage, {
-                    //         Page: GenPage.GeneratePage('Can Not Add This Film', LoggedUser, false, 'alert-danger', 'AddFilm')
-                    //     });
-                    // }
-
-                } catch (error2) {
-                    console.log(error2);
+                            if (!err3) {
+                                res.render(RenderPage, {
+                                    Page: GenPage.GeneratePage('Film Added Successfully', LoggedUser, false, 'alert-success', 'AddFilm')
+                                });
+                            } else {
+                                res.render(RenderPage, {
+                                    Page: GenPage.GeneratePage('Can Not Add This Film', LoggedUser, false, 'alert-danger', 'AddFilm')
+                                });
+                            }
+                        });
+                    });
+                } else {
                     res.render(RenderPage, {
-                        Page: GenPage.GeneratePage('Can Not Add This Film', LoggedUser, false, 'alert-danger', 'AddFilm')
+                        Page: GenPage.GeneratePage('Film Added Successfully', LoggedUser, false, 'alert-success', 'AddFilm')
                     });
                 }
-
             } else {
                 res.render(RenderPage, {
-                    Page: GenPage.GeneratePage('Film Added Successfully', LoggedUser, false, 'alert-success', 'AddFilm')
+                    Page: GenPage.GeneratePage('Can Not Add This Film', LoggedUser, false, 'alert-danger', 'AddFilm')
                 });
             }
 
-        } catch (error3) {
-            console.log(error3);
-            res.render(RenderPage, {
-                Page: GenPage.GeneratePage('Can Not Add This Film', LoggedUser, false, 'alert-danger', 'AddFilm')
-            });
-        }
-        // connection.query(Queries.Query("InsertFilm", txtFilmName, txtDuration, txtMemoryAddress), (err, result) => {
-        //     if (!err) {
-
-        //         if (chbxViewed == "1") {
-
-        //             const connection2 = dbConnection();
-        //             connection2.query(Queries.Query("GetFilmId", txtFilmName), (err2, result2) => {
-
-        //                 let filmID = result2[0].filmId;
-        //                 let todayDate = new Date();
-        //                 let dd = todayDate.getDate();
-        //                 let mm = todayDate.getMonth() + 1;
-        //                 let yyyy = todayDate.getFullYear();
-
-        //                 if (dd < 10) {
-        //                     dd = '0' + dd;
-        //                 }
-        //                 if (mm < 10) {
-        //                     mm = '0' + mm;
-        //                 }
-
-        //                 todayDate = yyyy + '/' + mm + '/' + dd;
-
-        //                 const connection3 = dbConnection();
-        //                 connection3.query(Queries.Query("InsertViewed", filmID, LoggedUser, points, todayDate), (err3, result3) => {
-
-        //                     if (!err3) {
-        //                         res.render(RenderPage, {
-        //                             Page: GenPage.GeneratePage('Film Added Successfully', LoggedUser, false, 'alert-success', 'AddFilm')
-        //                         });
-        //                     } else {
-        //                         res.render(RenderPage, {
-        //                             Page: GenPage.GeneratePage('Can Not Add This Film', LoggedUser, false, 'alert-danger', 'AddFilm')
-        //                         });
-        //                     }
-        //                 });
-        //             });
-        //         } else {
-        //             res.render(RenderPage, {
-        //                 Page: GenPage.GeneratePage('Film Added Successfully', LoggedUser, false, 'alert-success', 'AddFilm')
-        //             });
-        //         }
-        //     } else {
-        //         res.render(RenderPage, {
-        //             Page: GenPage.GeneratePage('Can Not Add This Film', LoggedUser, false, 'alert-danger', 'AddFilm')
-        //         });
-        //     }
-
-        // });
+        });
 
     });
 
@@ -358,30 +299,29 @@ module.exports = app => {
             filmID = result[0].filmId;
 
             let connection2 = dbConnection();
-            try {
+
                 connection2.query(Queries.Query("DeleteViewedFilm", filmID));
-                deleted = true;
-            } catch (error) {
-                deleted = false;
-            }
+
+                
+                connection3.query(Queries.Query("DeleteFilm", filmID), (err2, result2) => {
+                    if (!err2){
+                        deleted = true;
+                    } else {
+                        deleted = false;
+                    }
+
+                    if (deleted) {
+                        res.render(RenderPage, {
+                            Page: GenPage.GeneratePage('Film Deleted', LoggedUser, false, 'alert-success', 'DeleteFilm')
+                        });
+                    } else {
+                        res.render(RenderPage, {
+                            Page: GenPage.GeneratePage('Invalid Fields', LoggedUser, false, 'alert-danger', 'DeleteFilm')
+                        });
+                    }
+                });
+
         });
-
-        console.log(deleted);
-        try {
-            connection3.query(Queries.Query("DeleteFilm", cmbFilmName));
-            deleted = true;
-        } catch (error) {
-            deleted = false;
-        }
-        console.log(deleted);
-
-
-
-        if (deleted) {
-            res.render(RenderPage, {
-                Page: GenPage.GeneratePage('Film Deleted', LoggedUser, false, 'alert-success', 'DeleteFilm')
-            });
-        }
 
     });
 

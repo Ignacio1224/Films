@@ -107,10 +107,10 @@ $(document).ready(function () {
     });
 
 
-    /* ######################## VIEW FILM ######################## */
+    /* ######################## DELETE FILM ######################## */
     // Fill the dropdown with films on database
     $.ajax({
-        url: "/GetAllFilms",
+        url: "/GetAllFilms?filter=7896541236",
         dataType: 'json',
         type: "GET",
         success: function (e){

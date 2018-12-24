@@ -47,15 +47,15 @@ module.exports.Query = function Query(Name, f1 = null, f2 = null, f3 = null, f4 
             break;
 
         case "GetFilm":
-            query = `SELECT FILM.filmName, FILM.filmDuration, FILM.memoryAddress, ViewedFilm.rating, ViewedFilm.viewDate FROM FILM JOIN ViewedFilm ON FILM.filmId = ViewedFilm.filmId`;
+            if (f1 === "7896541236") {
+                query = `SELECT * FROM FILM;`
 
-            if (f1 == true) {
-                query = `SELECT * FROM FILM`
-                break;
-            }
-
-            if (f1) {
-                query += ` WHERE filmName LIKE '%${f1}%';`;
+            } else {
+                query = `SELECT FILM.filmName, FILM.filmDuration, FILM.memoryAddress, ViewedFilm.rating, ViewedFilm.viewDate FROM FILM JOIN ViewedFilm ON FILM.filmId = ViewedFilm.filmId`;
+                
+                if (f1) {
+                    query += ` WHERE filmName LIKE '%${f1}%';`;
+                }
             }
 
             break;
@@ -65,7 +65,7 @@ module.exports.Query = function Query(Name, f1 = null, f2 = null, f3 = null, f4 
             break;
 
         case "DeleteFilm":
-            query = `DELETE FROM FILM WHERE filmName = '${f1};'`;
+            query = `DELETE FROM FILM WHERE filmId = '${f1}';`;
             break;
 
         default:
