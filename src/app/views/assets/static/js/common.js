@@ -68,6 +68,13 @@ $(document).ready(function () {
 
     /* ######################## ADD FILM ####################### */
     // SLIDER
+    
+    // Hide or show the slider depending if the film it's viewed
+    $('#chbxViewedAddFilm').change(function () {
+        $('#div-pointsAddFilm').toggle();
+    });
+
+
     var rangeSlider = function () {
         var slider = $('#range-slider'),
             range = $('#rangePoints'),
@@ -121,14 +128,59 @@ $(document).ready(function () {
         dataType: 'json',
         type: "GET",
         success: function (e) {
-            ActionFillComboBox(e);
+            ActionFillComboBox("#cmbFilmNameDelete", e);
         }
     });
 
+    $('#cmbFilmNameDelete').select2();
 
 
-    /* ######################## DELETE FILM ######################## */
-    $('#cmbFilmName').select2();
+    /* ######################## Edit FILM ######################## */
+    // Slider
+    var rangeSlider = function () {
+        var slider = $('#range-sliderEdit'),
+            range = $('#rangePointsEdit'),
+            value = $('#rangePointsValueEdit');
+
+        slider.each(function () {
+
+            value.each(function () {
+                var value = $(this).prev().attr('value');
+                $(this).html(value);
+            });
+
+            range.on('input', function () {
+                $(this).next(value).html(this.value);
+            });
+        });
+    };
+
+    rangeSlider();
+
+    $.ajax({
+        url: "/GetAllFilms?option=7896541236",
+        dataType: 'json',
+        type: "GET",
+        success: function (e) {
+            ActionFillComboBox("#cmbFilmNameEdit", e);
+        }
+    });
+
+    $('#cmbFilmNameEdit').select2();
+
+    DisableEditFields('#cmbFilmNameEdit');
+    $('#cmbFilmNameEdit').change(function () {
+        DisableEditFields('#cmbFilmNameEdit');
+    });
+
+    $('#div-pointsEdit').hide();
+    $('#chbxViewedEdit').change(function() {
+        if ($('#chbxViewedEdit').is(':checked')) {
+            $('#div-pointsEdit').show();
+        } else {
+            $('#div-pointsEdit').hide();
+        }
+    });
 
 });
 
@@ -191,8 +243,38 @@ function ActionFillTable(films, all) {
     }
 }
 
-function ActionFillComboBox(films) {
+function ActionFillComboBox(cmb, films) {
     for (const f of films) {
-        $("#cmbFilmName").append(`<option value="${f.filmName}">${f.filmName}</option>`);
+        $(cmb).append(`<option value="${f.filmName}">${f.filmName}</option>`);
     }
+}
+
+function DisableEditFields(cmb) {
+    const cmbVal = $(cmb).val();
+    let disabled = false;
+    
+    if (cmbVal === "" || !cmbVal) {
+        disabled = true;    
+    }
+    
+    if ($('#chbxViewedEdit').is(':checked')) {
+        $('#div-pointsEdit').show();
+    } else {
+        $('#div-pointsEdit').hide();
+    }
+    
+    if (disabled) {
+        $('#div-durationEdit').hide();
+        $('#div-memoryEdit').hide();
+        $('#div-viewedEdit').hide();
+        $('#div-pointsEdit').hide();
+        $('#bttnEdit').hide();
+
+    } else {
+        $('#div-durationEdit').show();
+        $('#div-memoryEdit').show();
+        $('#div-viewedEdit').show();
+        $('#bttnEdit').show();
+    }
+
 }

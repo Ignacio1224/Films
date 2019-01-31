@@ -309,12 +309,13 @@ ul.CTAs a {
     display: none;
 }
 
-/* Customize Range Input in ADD FILM */
-#rangePoints {
+/* Customize Range Input */
+
+.rangePoints {
     width: 95%;
 }
 
-#rangePoints::-moz-range-track {
+.rangePoints::-moz-range-track {
     width: 100%;
     height: 6px;
     background: rgba(194, 14, 154, 0.6);
@@ -322,7 +323,7 @@ ul.CTAs a {
     border-radius: 2px;
 }
 
-#rangePoints::-webkit-slider-runnable-track {
+.rangePoints::-webkit-slider-runnable-track {
     width: 100%;
     height: 6px;
     background: rgba(194, 14, 154, 0.6);
@@ -330,15 +331,15 @@ ul.CTAs a {
     border-radius: 2px;
 }
 
-#rangePoints::-webkit-slider-thumb {
+.rangePoints::-webkit-slider-thumb {
     margin-top: -6px;
 }
 
-#rangePoints::-moz-range-progress {
+.rangePoints::-moz-range-progress {
     background: rgba(194, 14, 154, 0.9);
 }
 
-#rangePointsValue {
+.rangePointsValue {
     margin-left: 2%;
     vertical-align: top
 }

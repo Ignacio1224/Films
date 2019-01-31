@@ -46,6 +46,10 @@ module.exports.Query = function Query(Name, f1 = null, f2 = null, f3 = null, f4 
             query = `INSERT INTO ViewedFilm (filmId, userName, rating, viewDate) VALUES ('${f1}', '${f2}', '${f3}', '${f4}');`;
             break;
 
+        case "GetViewedFilm":
+            query = `SELECT userName FROM ViewedFilm WHERE filmId = '${f1}';`;
+            break;
+
         case "GetFilm":
             if (f2 === "7896541236") {
                 query = `SELECT * FROM FILM`;
@@ -69,6 +73,10 @@ module.exports.Query = function Query(Name, f1 = null, f2 = null, f3 = null, f4 
 
         case "DeleteFilm":
             query = `DELETE FROM FILM WHERE filmId = '${f1}';`;
+            break;
+
+        case "UpdateFilm":
+            query = `UPDATE FILM SET filmDuration = '${f2}', memoryAddress = '${f3}' WHERE filmName = '${f1}';`;
             break;
 
         default:

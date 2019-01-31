@@ -24,6 +24,13 @@ module.exports.GeneratePage = function GeneratePage(Name, LoggedUser, changePass
             };
             break;
 
+        case "EditFilm":
+            Page["EditFilm"] = {
+                messaje: Name + '!',
+                clas: clas
+            };
+            break;
+
         default:
             break;
     }
@@ -50,6 +57,10 @@ function PageAddFilm(LoggedUser, changePassword, Type) {
 
         case "DeleteFilm":
             Page["titleTab"] = "Delete Film";
+            break;
+
+        case "EditFilm":
+            Page["titleTab"] = "Edit Film";
             break;
 
         default:

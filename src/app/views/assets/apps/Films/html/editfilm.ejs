@@ -1,0 +1,55 @@
+<div class="card card-outline-secondary">
+    <div class="card-header">
+        <h3 class="mb-0"><span class="fas fa-edit"></span> Edit Film <span class='alert <%=Page["EditFilm"]["clas"]%> alert-dismissable ml-5'>
+                <%= Page['EditFilm']["messaje"] %></span></h3>
+    </div>
+    <div class="card-body">
+        <form class="form" role="form" autocomplete="off" method="POST" action="/EditFilm">
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label" for="cmbFilmNameEdit">Film Name</label>
+                <div class="col-lg-9">
+                    <select class="form-control" type="text" placeholder="Film Name" id="cmbFilmNameEdit" name="cmbFilmNameEdit" >
+                        <!-- Films -->
+                        <option value="" selected>------</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row" id="div-durationEdit">
+                <label class="col-lg-3 col-form-label form-control-label" for="txtDurationEdit">Duration</label>
+                <div class="col-lg-9">
+                    <input class="form-control" type="number" min="1" max="1000" id="txtDurationEdit" name="txtDurationEdit" required />
+                </div>
+            </div>
+            <div class="form-group row" id="div-memoryEdit">
+                <label class="col-lg-3 col-form-label form-control-label" for="txtMemoryAddressEdit">Memory Address</label>
+                <div class="input-group col-lg-9">
+                    <div class="custom-file" id="fileDivEdit">
+                        <input type="file" class="custom-file-input form-control" aria-describedby="txtMemoryAddressEdit" id="txtMemoryAddressEdit" name="txtMemoryAddressEdit" />
+                        <label class="custom-file-label" for="txtMemoryAddressEdit">Choose file</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" id="div-viewedEdit">
+                <label for="chbxViewedEdit" class="col-lg-3 col-form-label form-control-label">Viewed</label>
+                <div class="col-lg-9 form-check">
+                    <input class="form-control form-check-input position-static" type="checkbox" id="chbxViewedEdit" name="chbxViewedEdit" value="1" checked style="box-shadow: none;">
+                </div>
+            </div>
+            <div class="form-group row" id="div-pointsEdit">
+                <label class="col-lg-3 col-form-label form-control-label" for="rangePointsEdit">Points</label>
+                <div class="col-lg-9">
+                    <div id="range-sliderEdit" class="pt-2">
+                        <input id="rangePointsEdit" type="range" value="50" min="0" max="100" name="rangePointsEdit" class="rangePoints"/>
+                        <span id="rangePointsValue" class="rangePointsValue">50</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label"></label>
+                <div class="col-lg-9">
+                    <button type="submit" class="btn btn-primary" id="bttnEdit">Save Changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
