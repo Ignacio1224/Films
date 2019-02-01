@@ -306,7 +306,7 @@ module.exports = app => {
 
     });
 
-
+    
     // #################################### EDIT FILM ####################################
     // GET
     app.get('/EditFilm', (req, res) => {
@@ -380,8 +380,17 @@ module.exports = app => {
     
                                 });
                             } else {
-                                return res.render(RenderPage, {
-                                    Page: GenPage.GeneratePage('Film Modified Successfully', LoggedUser, false, 'alert-success', 'EditFilm')
+                                const connection4 = dbConnection();
+                                connection4.query(Queries.Query("UpdateViewedFilm", filmID, points), (err4, result4) => {
+                                    if (!err4) {  
+                                        return res.render(RenderPage, {
+                                            Page: GenPage.GeneratePage('Film Modified Successfully', LoggedUser, false, 'alert-success', 'EditFilm')
+                                        });
+                                    } else {
+                                        return res.render(RenderPage, {
+                                            Page: GenPage.GeneratePage('Can Not Modify This Film', LoggedUser, false, 'alert-danger', 'EditFilm')
+                                        });
+                                    }
                                 });
                             }
 
@@ -438,25 +447,35 @@ module.exports = app => {
     // #################################### UTILITIES ####################################
     app.get('/GetAllFilms', (req, res) => {
         if (LoggedUser === null) {
-            res.render("LogIn/LogIn", {
+            return res.render("LogIn/LogIn", {
                 error: "User not logged"
             });
-            return false;
+            
         }
 
         let filter = req.query.filter,
             option = req.query.option;
+        
+        connection.query(Queries.Query("GetFilm", filter, option), (err, result) => {
+            return res.json(result);
+        });
+        
+    });
 
+    app.get('/GetAllViewedFilms', (req, res) => {
+        if (LoggedUser === null) {
+            return res.render("LogIn/LogIn", {
+                error: "User not logged"
+            });
 
-        if (!filter) {
-            connection.query(Queries.Query("GetFilm", filter, option), (err, result) => {
-                res.json(result);
-            });
-        } else {
-            connection.query(Queries.Query("GetFilm", filter, option), (err, result) => {
-                res.json(result);
-            });
         }
+
+        let filter = req.query.filter;
+
+        connection.query(Queries.Query("GetViewedFilm", null, filter), (err, result) => {
+            return res.json(result);
+        });
+        
     });
 
     function GetTodayDate() {

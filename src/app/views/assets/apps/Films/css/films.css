@@ -367,3 +367,11 @@ ul.CTAs a {
 .select2 > * {
     width: 100% !important;
 }
+
+/* EDIT FILM */
+#spanAddressMesj {
+    font-size: 0.8em;
+    color: #8a6ea0;
+    vertical-align: middle;
+    margin-left: 10%;
+}

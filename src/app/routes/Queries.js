@@ -47,16 +47,28 @@ module.exports.Query = function Query(Name, f1 = null, f2 = null, f3 = null, f4 
             break;
 
         case "GetViewedFilm":
-            query = `SELECT userName FROM ViewedFilm WHERE filmId = '${f1}';`;
+            if (f1 != null) {
+                query = `SELECT userName FROM ViewedFilm WHERE filmId = '${f1}';`;
+            } else {
+                query = 'SELECT * FROM ViewedFilm';
+            }
+
+            if (f2) {
+                query += ` WHERE filmId = '${f2}';`
+            } else {
+                query += ';';
+            }
+            break;
+
+        case "UpdateViewedFilm":
+            query = `UPDATE ViewedFilm SET rating = '${f2}' WHERE filmId = '${f1}';`;
             break;
 
         case "GetFilm":
             if (f2 === "7896541236") {
                 query = `SELECT * FROM FILM`;
-
             } else {
-                query = `SELECT FILM.filmName, FILM.filmDuration, FILM.memoryAddress, ViewedFilm.rating, ViewedFilm.viewDate FROM FILM JOIN ViewedFilm ON FILM.filmId = ViewedFilm.filmId`;
-
+                query = `SELECT FILM.*, ViewedFilm.rating, ViewedFilm.viewDate FROM FILM JOIN ViewedFilm ON FILM.filmId = ViewedFilm.filmId`;
             }
 
             if (f1) {
